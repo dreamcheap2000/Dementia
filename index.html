@@ -1068,8 +1068,16 @@ function navigate(dir){
   updateNav();
 }
 function goTo(n){
-  if(n===current)return;
-  navigate(n-current);
+  if(n===current){toggleTOC();return;}
+  const old=getSlide(current);
+  old.classList.remove('active');
+  old.classList.add('exit');
+  setTimeout(()=>old.classList.remove('exit'),500);
+  current=n;
+  const s=getSlide(current);
+  s.classList.add('active');
+  s.scrollTop=0;
+  updateNav();
   toggleTOC();
 }
 function updateNav(){
@@ -1293,8 +1301,7 @@ function calcFAST(){
   const stage=document.getElementById('fast-stage').value;
   const compl=document.getElementById('fast-compl').value;
   let msg=`FAST Stage ${stage}: ${fastDesc[stage]}`;
-  const stageNum=parseFloat(stage);
-  if(stageNum>=7||stage.startsWith('7')){
+  if(stage.startsWith('7')){
     msg+=compl==='1'?' | ✅ HOSPICE ELIGIBLE (Stage ≥7A + complications)':' | ⚠ Complications needed for hospice eligibility';
   }
   document.getElementById('fast-score').textContent=msg;
@@ -1338,9 +1345,9 @@ function getScaleText(scale){
     const{total,distress}=calcNPI();
     txt=`Neuropsychiatric Inventory (NPI)\nDate: ${d}\n${'─'.repeat(45)}\n`;
     npiDomains.forEach((d,i)=>{
-      const f=document.getElementById('npi_f'+i).value;
-      const s=document.getElementById('npi_s'+i).value;
-      const dist=document.getElementById('npi_d'+i).value;
+      const f=Number(document.getElementById('npi_f'+i).value)||0;
+      const s=Number(document.getElementById('npi_s'+i).value)||0;
+      const dist=Number(document.getElementById('npi_d'+i).value)||0;
       txt+=`${d}: Freq=${f} Sev=${s} Score=${f*s} Caregiver distress=${dist}\n`;
     });
     txt+=`${'─'.repeat(45)}\nNPI Total: ${total}/144 | Caregiver Distress: ${distress}/60\n`;
@@ -1372,7 +1379,6 @@ function getScaleText(scale){
     txt=`Functional Assessment Staging Tool (FAST)\nDate: ${d}\n${'─'.repeat(45)}\n`;
     txt+=`Stage: ${stage}\nDescription: ${fastDesc[stage]}\n`;
     txt+=`Complications (for hospice): ${compl==='1'?'Yes (1 or more present)':'None documented'}\n`;
-    const stageNum=parseFloat(stage)||0;
     if(stage.startsWith('7')&&compl==='1')txt+=`Hospice Eligibility: ELIGIBLE (Stage ≥7A + complications)\n`;
     txt+=`\nRef: Reisberg B. Psychopharmacol Bull. 1988;24:653–659.`;
   }
