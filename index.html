@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Comprehensive Neurological Functional Care in Dementia</title>
+<style>
+  :root{
+    --primary:#1a3a5c;
+    --accent:#2e86ab;
+    --accent2:#e84855;
+    --gold:#f4a261;
+    --light:#f0f4f8;
+    --white:#fff;
+    --text:#1e2a38;
+    --shadow:0 4px 24px rgba(0,0,0,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#0d1b2a;color:var(--text);overflow:hidden;height:100vh;}
+
+  /* ── PROGRESS BAR ── */
+  #progress-bar{position:fixed;top:0;left:0;height:4px;background:var(--gold);transition:width .4s;z-index:999;}
+
+  /* ── SLIDE CONTAINER ── */
+  #slides{width:100%;height:100vh;position:relative;}
+  .slide{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;
+    opacity:0;pointer-events:none;
+    transition:opacity .5s,transform .5s;
+    transform:translateX(60px);
+    overflow-y:auto;
+    padding:30px 48px 90px;
+  }
+  .slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+  .slide.exit{opacity:0;transform:translateX(-60px);}
+
+  /* ── SLIDE THEMES ── */
+  .slide-title{background:linear-gradient(135deg,#0d1b2a 0%,#1a3a5c 60%,#2e86ab 100%);}
+  .slide-section{background:linear-gradient(135deg,#0f2942 0%,#1d4e89 100%);}
+  .slide-content{background:linear-gradient(160deg,#0d1b2a 0%,#152538 100%);}
+  .slide-scale{background:linear-gradient(160deg,#0d1b2a 0%,#1a2e1a 100%);}
+  .slide-ref{background:linear-gradient(160deg,#1a0d2a 0%,#2a1a3a 100%);}
+
+  /* ── TYPOGRAPHY ── */
+  h1{font-size:2.6rem;font-weight:700;color:#fff;line-height:1.2;text-shadow:0 2px 8px rgba(0,0,0,.4);}
+  h2{font-size:2rem;font-weight:700;color:#7ec8e3;margin-bottom:18px;}
+  h3{font-size:1.3rem;font-weight:600;color:var(--gold);margin:12px 0 6px;}
+  h4{font-size:1rem;font-weight:600;color:#a8d8ea;margin:8px 0 4px;}
+  p,li{font-size:.95rem;color:#cdd8e3;line-height:1.65;}
+  strong{color:#fff;}
+  em{color:var(--gold);font-style:normal;}
+
+  /* ── BADGES ── */
+  .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.05em;margin-left:6px;}
+  .badge-ad{background:#e84855;color:#fff;}
+  .badge-vasc{background:#2e86ab;color:#fff;}
+  .badge-ftd{background:#f4a261;color:#1e2a38;}
+  .badge-dlb{background:#6a4c93;color:#fff;}
+  .badge-pdd{background:#3a7d44;color:#fff;}
+  .badge-meta{background:#808080;color:#fff;}
+
+  /* ── CARDS GRID ── */
+  .cards{display:grid;gap:16px;margin-top:16px;}
+  .cards-2{grid-template-columns:repeat(2,1fr);}
+  .cards-3{grid-template-columns:repeat(3,1fr);}
+  .cards-4{grid-template-columns:repeat(4,1fr);}
+  .card{
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+    border-radius:12px;padding:16px;transition:transform .2s,box-shadow .2s;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(46,134,171,.25);}
+
+  /* ── TABLE ── */
+  .tbl-wrap{overflow-x:auto;margin-top:14px;}
+  table{width:100%;border-collapse:collapse;font-size:.82rem;}
+  thead th{background:rgba(46,134,171,.35);color:#7ec8e3;padding:8px 10px;text-align:left;border-bottom:2px solid rgba(46,134,171,.5);}
+  tbody td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);color:#cdd8e3;vertical-align:top;}
+  tbody tr:hover td{background:rgba(255,255,255,.05);}
+  .cell-y{color:#6fcf97;font-weight:600;}
+  .cell-n{color:#eb5757;font-weight:600;}
+  .cell-p{color:var(--gold);font-weight:600;}
+  .cell-m{color:#a8d8ea;}
+
+  /* ── SCALE FORM ── */
+  .scale-block{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:20px;margin-top:12px;}
+  .scale-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+  .scale-item:last-child{border-bottom:none;}
+  .scale-item label{flex:1;font-size:.87rem;color:#cdd8e3;cursor:pointer;}
+  .scale-item input[type=number],.scale-item select{
+    width:68px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+    color:#fff;border-radius:6px;padding:4px 6px;font-size:.85rem;
+  }
+  .score-display{
+    margin-top:14px;padding:12px 18px;border-radius:10px;
+    background:rgba(46,134,171,.25);border:1px solid rgba(46,134,171,.4);
+    font-size:1.05rem;font-weight:700;color:#7ec8e3;text-align:center;
+  }
+  .btn-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
+  .btn{
+    padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-size:.88rem;font-weight:600;
+    transition:background .2s,transform .15s;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-copy{background:var(--accent);color:#fff;}
+  .btn-email{background:var(--accent2);color:#fff;}
+  .btn-reset{background:rgba(255,255,255,.15);color:#cdd8e3;}
+  .toast{
+    position:fixed;bottom:80px;right:30px;padding:10px 20px;background:#2e86ab;color:#fff;
+    border-radius:8px;font-size:.88rem;font-weight:600;opacity:0;pointer-events:none;
+    transition:opacity .4s;z-index:9999;
+  }
+  .toast.show{opacity:1;}
+
+  /* ── NAVIGATION ── */
+  #nav{
+    position:fixed;bottom:0;left:0;right:0;
+    background:rgba(13,27,42,.95);backdrop-filter:blur(10px);
+    border-top:1px solid rgba(255,255,255,.1);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:10px 24px;z-index:100;
+  }
+  #nav button{
+    background:var(--accent);color:#fff;border:none;border-radius:8px;
+    padding:8px 24px;font-size:.9rem;font-weight:600;cursor:pointer;
+    transition:background .2s,opacity .2s;
+  }
+  #nav button:disabled{background:rgba(255,255,255,.1);color:rgba(255,255,255,.3);cursor:not-allowed;}
+  #nav button:not(:disabled):hover{background:#1a6a8a;}
+  #slide-counter{color:rgba(255,255,255,.6);font-size:.85rem;}
+  #toc-btn{background:rgba(255,255,255,.1);color:#cdd8e3;border:none;border-radius:8px;
+    padding:8px 16px;font-size:.85rem;cursor:pointer;}
+  #toc-btn:hover{background:rgba(255,255,255,.18);}
+
+  /* ── TOC MODAL ── */
+  #toc-modal{
+    position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;
+    align-items:center;justify-content:center;z-index:200;
+  }
+  #toc-modal.open{display:flex;}
+  #toc-inner{
+    background:#0f2942;border:1px solid rgba(255,255,255,.15);border-radius:16px;
+    width:min(600px,92vw);max-height:80vh;overflow-y:auto;padding:28px;
+  }
+  #toc-inner h2{color:#7ec8e3;margin-bottom:16px;}
+  .toc-item{
+    display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:8px;
+    cursor:pointer;transition:background .15s;
+  }
+  .toc-item:hover{background:rgba(255,255,255,.08);}
+  .toc-num{
+    min-width:32px;height:32px;border-radius:50%;background:var(--accent);
+    color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;
+  }
+  .toc-label{color:#cdd8e3;font-size:.9rem;}
+
+  /* ── TITLE SLIDE SPECIAL ── */
+  .title-center{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:80vh;text-align:center;gap:16px;}
+  .subtitle{font-size:1.2rem;color:#7ec8e3;font-weight:400;}
+  .author-line{font-size:.9rem;color:rgba(255,255,255,.5);margin-top:8px;}
+  .pill{display:inline-block;padding:4px 14px;border-radius:999px;background:rgba(46,134,171,.25);border:1px solid rgba(46,134,171,.4);font-size:.8rem;color:#7ec8e3;margin:3px;}
+
+  /* ── SECTION DIVIDER ── */
+  .section-center{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:70vh;text-align:center;gap:12px;}
+  .section-num{font-size:5rem;font-weight:900;color:rgba(255,255,255,.07);line-height:1;}
+  .section-title{font-size:2.2rem;font-weight:700;color:#fff;}
+  .section-sub{font-size:1rem;color:#7ec8e3;}
+
+  /* ── LIST STYLES ── */
+  ul.check li{list-style:none;padding-left:1.5em;position:relative;}
+  ul.check li::before{content:'✓';position:absolute;left:0;color:#6fcf97;font-weight:700;}
+  ul.bullet li{margin-left:1.2em;}
+  ul.bullet li{margin-bottom:4px;}
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box{
+    background:rgba(244,162,97,.12);border-left:4px solid var(--gold);
+    border-radius:0 8px 8px 0;padding:12px 16px;margin:10px 0;
+  }
+  .info-box{
+    background:rgba(46,134,171,.12);border-left:4px solid var(--accent);
+    border-radius:0 8px 8px 0;padding:12px 16px;margin:10px 0;
+  }
+  .warn-box{
+    background:rgba(232,72,85,.1);border-left:4px solid var(--accent2);
+    border-radius:0 8px 8px 0;padding:12px 16px;margin:10px 0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:700px){
+    .slide{padding:20px 18px 90px;}
+    h1{font-size:1.8rem;}h2{font-size:1.4rem;}
+    .cards-3,.cards-4{grid-template-columns:1fr;}
+    .cards-2{grid-template-columns:1fr;}
+  }
+
+  /* ── KEYBOARD HINT ── */
+  .key-hint{position:fixed;top:16px;right:20px;color:rgba(255,255,255,.25);font-size:.75rem;}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div class="key-hint">← → Arrow keys to navigate</div>
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 1 – TITLE
+════════════════════════════════════════════════════════════ -->
+<div id="slides">
+<div class="slide slide-title active" id="s1">
+  <div class="title-center">
+    <div>
+      <span class="pill">Neurology</span>
+      <span class="pill">Geriatrics</span>
+      <span class="pill">Palliative Care</span>
+    </div>
+    <h1>Comprehensive Neurological<br>Functional Care in Dementia</h1>
+    <p class="subtitle">From Diagnosis to End-of-Life: Evidence-Based Clinical Framework</p>
+    <p class="author-line">Interactive Clinical Education Module · 2024</p>
+    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <div style="text-align:center;padding:14px 22px;background:rgba(255,255,255,.07);border-radius:12px;border:1px solid rgba(255,255,255,.1);">
+        <div style="font-size:1.8rem;font-weight:800;color:var(--gold);">6</div>
+        <div style="font-size:.75rem;color:#7ec8e3;">Dementia Types</div>
+      </div>
+      <div style="text-align:center;padding:14px 22px;background:rgba(255,255,255,.07);border-radius:12px;border:1px solid rgba(255,255,255,.1);">
+        <div style="font-size:1.8rem;font-weight:800;color:var(--gold);">6</div>
+        <div style="font-size:.75rem;color:#7ec8e3;">Assessment Scales</div>
+      </div>
+      <div style="text-align:center;padding:14px 22px;background:rgba(255,255,255,.07);border-radius:12px;border:1px solid rgba(255,255,255,.1);">
+        <div style="font-size:1.8rem;font-weight:800;color:var(--gold);">Interactive</div>
+        <div style="font-size:.75rem;color:#7ec8e3;">Scoring Tools</div>
+      </div>
+    </div>
+    <p style="margin-top:20px;font-size:.8rem;color:rgba(255,255,255,.3);">References: DSM-5, NIA-AA, Lancet, NEJM, Brain, Neurology, JAMA Neurology</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 2 – SECTION 1 DIVIDER
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-section" id="s2">
+  <div class="section-center">
+    <div class="section-num">01</div>
+    <div class="section-title">Dementia Syndromes</div>
+    <div class="section-sub">Alzheimer's Disease &amp; Major Neurocognitive Disorders</div>
+    <p style="max-width:500px;color:rgba(255,255,255,.5);font-size:.9rem;margin-top:14px;">
+      Epidemiology · Pathophysiology · Clinical Features · Biomarkers
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 3 – ALZHEIMER'S DISEASE
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" id="s3">
+  <h2>Alzheimer's Disease (AD) <span class="badge badge-ad">Most Common · 60–80%</span></h2>
+  <div class="cards cards-2">
+    <div class="card">
+      <h3>Epidemiology &amp; Risk Factors</h3>
+      <ul class="bullet"><li>Prevalence: ~50 million globally (WHO 2023)</li>
+      <li>Age &gt;65: greatest risk; doubles every 5 years</li>
+      <li><em>APOE ε4</em> allele: 3–4× risk (heterozygote), ~8–12× (homozygote)</li>
+      <li>Modifiable: HTN, DM, obesity, physical inactivity, hearing loss</li>
+      <li>Protective: education, Mediterranean diet, social engagement</li></ul>
+    </div>
+    <div class="card">
+      <h3>Neuropathology (NIA-AA 2018)</h3>
+      <ul class="bullet">
+        <li><strong>Amyloid (A):</strong> Extracellular Aβ42 plaques; earliest biomarker</li>
+        <li><strong>Tau (T):</strong> Hyperphosphorylated tau → NFTs; Braak stages I–VI</li>
+        <li><strong>Neurodegeneration (N):</strong> Hippocampal atrophy, FDG-PET hypometabolism</li>
+        <li>Synapse loss correlates best with cognitive decline</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Clinical Stages</h3>
+      <ul class="bullet">
+        <li><strong>Preclinical:</strong> Biomarker+ but cognitively normal</li>
+        <li><strong>MCI due to AD:</strong> Objective memory impairment, intact ADL</li>
+        <li><strong>Mild AD:</strong> Episodic memory, MMSE ~18–26</li>
+        <li><strong>Moderate AD:</strong> Language, praxis, MMSE ~10–18</li>
+        <li><strong>Severe AD:</strong> Mutism, incontinence, MMSE &lt;10</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Cognitive Signature</h3>
+      <ul class="bullet">
+        <li>Anterograde episodic memory deficit (hallmark)</li>
+        <li>Hippocampal-dependent recall &gt; recognition failure</li>
+        <li>Later: language (anomia), visuospatial, executive</li>
+        <li>Relative sparing: procedural memory, insight (early)</li>
+      </ul>
+      <div class="highlight-box" style="margin-top:10px;">
+        <p><strong>Key reference:</strong> Jack CR Jr et al., NIA-AA Research Framework. <em>Alzheimers Dement.</em> 2018;14(4):535–562.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 4 – VASCULAR DEMENTIA
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" id="s4">
+  <h2>Vascular Dementia (VaD) <span class="badge badge-vasc">2nd Most Common · 15–20%</span></h2>
+  <div class="cards cards-2">
+    <div class="card">
+      <h3>Subtypes</h3>
+      <ul class="bullet">
+        <li><strong>Multi-infarct dementia:</strong> Cortical strokes, stepwise decline</li>
+        <li><strong>Small vessel disease (SVD):</strong> Lacunar infarcts, WMH; gradual</li>
+        <li><strong>Strategic infarct:</strong> Single infarct (thalamus, angular gyrus) → dementia</li>
+        <li><strong>CADASIL:</strong> NOTCH3 mutation; migraine, strokes, younger onset</li>
+        <li><strong>Mixed dementia:</strong> VaD + AD (~50% of dementia autopsy series)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Cognitive Signature</h3>
+      <ul class="bullet">
+        <li><strong>Executive dysfunction</strong> &amp; attention: prominent early</li>
+        <li>Processing speed slowed</li>
+        <li>Memory: impaired encoding AND retrieval (unlike AD)</li>
+        <li>Motor signs: focal deficits, gait apraxia, pseudobulbar affect</li>
+        <li>Stepwise or abrupt onset</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Diagnosis (VASCOG Criteria 2014)</h3>
+      <ul class="bullet">
+        <li>Cognitive impairment + vascular brain injury (neuroimaging)</li>
+        <li>Temporal relationship OR predominant executive/attention deficit</li>
+        <li>MRI: WMH ≥25% of white matter OR ≥1 strategic infarct</li>
+        <li>Fazekas scale grades WMH severity</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Management</h3>
+      <ul class="bullet">
+        <li>Primary &amp; secondary stroke prevention paramount</li>
+        <li>BP control (SBP &lt;130 mm Hg target in SVD)</li>
+        <li>Antiplatelet therapy; statin; anticoagulation if AF</li>
+        <li>Cognitive rehab; exercise program</li>
+      </ul>
+      <div class="info-box" style="margin-top:8px;">
+        <p><strong>Ref:</strong> Sachdev P et al. <em>Alzheimers Dement.</em> 2014;10(5):539–550. VASCOG criteria.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 5 – FTD OVERVIEW
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" id="s5">
+  <h2>Frontotemporal Dementia (FTD) <span class="badge badge-ftd">4 Clinical Variants</span></h2>
+  <div class="info-box">
+    <p>FTD encompasses a spectrum of disorders sharing TDP-43, tau, or FUS proteinopathy. It is the <strong>most common dementia under age 60</strong>. (Rascovsky K et al. <em>Brain</em> 2011;134:2456–2477)</p>
+  </div>
+  <div class="cards cards-2" style="margin-top:12px;">
+    <div class="card">
+      <h3>① Behavioural Variant FTD (bvFTD)</h3>
+      <ul class="bullet">
+        <li>Early personality change, disinhibition, apathy, loss of empathy</li>
+        <li>Compulsive behaviour, oral hyperphagia</li>
+        <li>Executive dysfunction > memory (initially)</li>
+        <li>Frontal/anterior temporal atrophy on MRI; FDG-PET hypometabolism</li>
+        <li>Genetics: C9orf72 (most common), MAPT, GRN</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>② Semantic Variant PPA (svPPA)</h3>
+      <ul class="bullet">
+        <li>Progressive loss of word meaning and object recognition</li>
+        <li>Fluent speech with semantic errors and anomia</li>
+        <li>Surface dyslexia/dysgraphia</li>
+        <li>Asymmetric anterior temporal atrophy (often L &gt; R)</li>
+        <li>TDP-43 type C pathology predominant</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>③ Non-fluent/Agrammatic Variant PPA (nfvPPA)</h3>
+      <ul class="bullet">
+        <li>Effortful, halting speech; agrammatism</li>
+        <li>Motor speech difficulties (apraxia of speech)</li>
+        <li>Comprehension relatively preserved initially</li>
+        <li>Inferior frontal / left anterior insula atrophy</li>
+        <li>Tau pathology (CBD, PSP); some TDP-43</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>④ FTD-Motor Neuron Disease (FTD-MND)</h3>
+      <ul class="bullet">
+        <li>bvFTD features + upper/lower MND signs</li>
+        <li>Prognosis poor: median survival ~2.5 years</li>
+        <li>TDP-43 type B; strongly associated with C9orf72</li>
+        <li>Rapidly progressive course</li>
+        <li>Bulbar symptoms common; dysphagia early</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 6 – DLB & PDD
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" id="s6">
+  <h2>Lewy Body Dementias: DLB &amp; PDD</h2>
+  <div class="cards cards-2">
+    <div class="card">
+      <h3>Dementia with Lewy Bodies (DLB) <span class="badge badge-dlb">DLB</span></h3>
+      <p style="font-size:.8rem;margin-bottom:6px;">McKeith IG et al. <em>Neurology</em> 2017;89:88–100 (4th Consensus Criteria)</p>
+      <ul class="bullet">
+        <li><strong>Core features (≥2 = probable DLB):</strong></li>
+        <li>① Fluctuating cognition &amp; attention</li>
+        <li>② Recurrent visual hallucinations (well-formed, vivid)</li>
+        <li>③ REM sleep behaviour disorder (RBD)</li>
+        <li>④ Spontaneous parkinsonism</li>
+        <li><strong>Supportive biomarkers:</strong> Low DaT-SPECT, 123I-MIBG scintigraphy, PSG-confirmed RBD</li>
+        <li><strong>Cognitive signature:</strong> Attention, executive, visuospatial >> memory</li>
+        <li><em>1-year rule:</em> Cognitive symptoms precede or coincide with parkinsonism</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Parkinson's Disease Dementia (PDD) <span class="badge badge-pdd">PDD</span></h3>
+      <p style="font-size:.8rem;margin-bottom:6px;">Emre M et al. <em>Lancet Neurol</em> 2007;6:708–720</p>
+      <ul class="bullet">
+        <li>Well-established PD &gt; 1 year before dementia onset</li>
+        <li>Same α-synuclein pathology as DLB</li>
+        <li><strong>Cognitive signature:</strong> Subcortical-frontal pattern</li>
+        <li>Executive, attention, visuospatial; memory retrieval deficit</li>
+        <li>Hallucinations (often medication-induced); depression common</li>
+        <li><strong>Treatment:</strong> Rivastigmine only ChEI with Level A evidence for PDD</li>
+      </ul>
+      <div class="highlight-box" style="margin-top:10px;">
+        <h4>⚠ DLB vs PDD: The "1-Year Rule"</h4>
+        <p>Dementia before/within 1 yr of parkinsonism → DLB<br>Parkinsonism &gt;1 yr before dementia → PDD</p>
+      </div>
+    </div>
+  </div>
+  <div class="warn-box" style="margin-top:10px;">
+    <strong>Critical Prescribing Warning:</strong> Antipsychotics (especially conventional) are <strong>contraindicated</strong> in DLB — severe neuroleptic sensitivity reactions (autonomic crisis, worsening parkinsonism) occur in ~50%.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 7 – METABOLIC / AUTOIMMUNE
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" id="s7">
+  <h2>Metabolic &amp; Autoimmune Encephalopathy</h2>
+  <div class="highlight-box">
+    <strong>Key principle:</strong> These are <em>potentially reversible</em> causes of dementia/cognitive impairment. Early recognition is critical. (Graus F et al. <em>Lancet Neurol.</em> 2016;15:391–404)
+  </div>
+  <div class="cards cards-2" style="margin-top:12px;">
+    <div class="card">
+      <h3>Metabolic Causes</h3>
+      <ul class="bullet">
+        <li><strong>Hypothyroidism:</strong> TSH elevated; "myxedema madness"; treat with levothyroxine</li>
+        <li><strong>B12/folate deficiency:</strong> Subacute combined degeneration; macrocytic anaemia</li>
+        <li><strong>Thiamine (B1) deficiency:</strong> Wernicke-Korsakoff; ophthalmoplegia, ataxia</li>
+        <li><strong>Hepatic/renal encephalopathy:</strong> Asterixis, EEG triphasic waves</li>
+        <li><strong>Hypercalcaemia, hyponatraemia</strong></li>
+        <li><strong>Normal Pressure Hydrocephalus (NPH):</strong> Triad: gait, incontinence, dementia; LP drainage test</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Autoimmune Encephalitis</h3>
+      <ul class="bullet">
+        <li><strong>Anti-NMDAR encephalitis:</strong> Psychiatric prodrome → seizures → coma; oophoroma associated; IVIG/steroids/rituximab</li>
+        <li><strong>LGI1 (VGKC complex):</strong> Limbic encephalitis; faciobrachial dystonic seizures; hyponatraemia</li>
+        <li><strong>CASPR2:</strong> Limbic encephalitis, Morvan syndrome, peripheral nerve hyperexcitability</li>
+        <li><strong>GAD65:</strong> Limbic encephalitis, cerebellar ataxia, stiff-person syndrome</li>
+        <li><strong>Hashimoto encephalopathy:</strong> Steroid-responsive; elevated TPO antibodies</li>
+        <li><strong>Paraneoplastic (Hu, Yo, Ri):</strong> Anti-tumour; poor prognosis; treat underlying malignancy</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 8 – COGNITIVE DOMAIN COMPARISON
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" id="s8">
+  <h2>Cognitive Domain Comparison Across Dementia Subtypes</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Cognitive Domain</th>
+          <th>AD</th>
+          <th>VaD</th>
+          <th>bvFTD</th>
+          <th>svPPA</th>
+          <th>nfvPPA</th>
+          <th>DLB</th>
+          <th>PDD</th>
+          <th>NPH/Metabolic</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Episodic Memory</strong></td>
+          <td class="cell-y">Severe ↓↓</td>
+          <td class="cell-p">Mod ↓ (retrieval)</td>
+          <td class="cell-p">Mild–Mod</td>
+          <td class="cell-p">Mod (semantic)</td>
+          <td class="cell-m">Mild</td>
+          <td class="cell-p">Mod (retrieval)</td>
+          <td class="cell-p">Mod (retrieval)</td>
+          <td class="cell-p">Variable</td>
+        </tr>
+        <tr><td><strong>Executive Function</strong></td>
+          <td class="cell-p">Later</td>
+          <td class="cell-y">Early ↓↓</td>
+          <td class="cell-y">Early ↓↓</td>
+          <td class="cell-m">Spared early</td>
+          <td class="cell-p">Moderate</td>
+          <td class="cell-y">Early ↓↓</td>
+          <td class="cell-y">Early ↓↓</td>
+          <td class="cell-y">Prominent</td>
+        </tr>
+        <tr><td><strong>Visuospatial</strong></td>
+          <td class="cell-p">Later</td>
+          <td class="cell-p">Variable</td>
+          <td class="cell-m">Spared early</td>
+          <td class="cell-m">Spared early</td>
+          <td class="cell-m">Spared early</td>
+          <td class="cell-y">Early ↓↓</td>
+          <td class="cell-y">Early ↓↓</td>
+          <td class="cell-p">Gait &gt; cognition</td>
+        </tr>
+        <tr><td><strong>Language</strong></td>
+          <td class="cell-p">Anomia (later)</td>
+          <td class="cell-p">Variable</td>
+          <td class="cell-p">Mild</td>
+          <td class="cell-y">Severe ↓↓ (semantic)</td>
+          <td class="cell-y">Severe ↓↓ (speech)</td>
+          <td class="cell-m">Relatively spared</td>
+          <td class="cell-m">Relatively spared</td>
+          <td class="cell-m">Variable</td>
+        </tr>
+        <tr><td><strong>Attention</strong></td>
+          <td class="cell-m">Relatively spared</td>
+          <td class="cell-y">Early ↓↓</td>
+          <td class="cell-p">Mod</td>
+          <td class="cell-m">Spared</td>
+          <td class="cell-m">Spared</td>
+          <td class="cell-y">Fluctuating ↓↓</td>
+          <td class="cell-y">Early ↓↓</td>
+          <td class="cell-p">Mod</td>
+        </tr>
+        <tr><td><strong>Social Cognition / Behaviour</strong></td>
+          <td class="cell-m">Late</td>
+          <td class="cell-p">Variable</td>
+          <td class="cell-y">Early ↓↓ (hallmark)</td>
+          <td class="cell-p">Mod (right &gt; left)</td>
+          <td class="cell-m">Spared early</td>
+          <td class="cell-m">Spared</td>
+          <td class="cell-m">Spared</td>
+          <td class="cell-m">Variable</td>
+        </tr>
+        <tr><td><strong>Procedural Memory</strong></td>
+          <td class="cell-m">Preserved early</td>
+          <td class="cell-m">Preserved</td>
+          <td class="cell-m">Preserved</td>
+          <td class="cell-m">Preserved</td>
+          <td class="cell-m">Preserved</td>
+          <td class="cell-m">Preserved</td>
+          <td class="cell-p">Mod ↓</td>
+          <td class="cell-m">Preserved</td>
+        </tr>
+        <tr><td><strong>Hallucinations</strong></td>
+          <td class="cell-m">Late/Rare</td>
+          <td class="cell-m">Rare</td>
+          <td class="cell-m">Rare</td>
+          <td class="cell-m">Rare</td>
+          <td class="cell-m">Rare</td>
+          <td class="cell-y">Visual (core feature)</td>
+          <td class="cell-p">Drug-related</td>
+          <td class="cell-m">Rare</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top:10px;display:flex;gap:16px;flex-wrap:wrap;">
+    <span><span class="cell-y">↓↓ Severe/Early</span></span>
+    <span><span class="cell-p" style="color:var(--gold);">Moderate/Later</span></span>
+    <span><span class="cell-m">Spared/Mild</span></span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 9 – SECTION 2 DIVIDER
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-section" id="s9">
+  <div class="section-center">
+    <div class="section-num">02</div>
+    <div class="section-title">Assessment Scales</div>
+    <div class="section-sub">Interactive Scoring Tools with Copy &amp; Email</div>
+    <p style="max-width:500px;color:rgba(255,255,255,.5);font-size:.9rem;margin-top:14px;">
+      MMSE · CDR · NPI · MoCA · CASI · FAST
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 10 – MMSE
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-scale" id="s10">
+  <h2>Mini-Mental State Examination (MMSE)</h2>
+  <div class="info-box">
+    <p><strong>Reference:</strong> Folstein MF, Folstein SE, McHugh PR. "Mini-mental state." <em>J Psychiatr Res.</em> 1975;12(3):189–198. | Max score: 30</p>
+  </div>
+  <div class="scale-block" id="mmse-form">
+    <h3>Orientation to Time (max 5)</h3>
+    <div class="scale-item"><label>Year</label><input type="number" id="mmse1" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Season</label><input type="number" id="mmse2" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Date</label><input type="number" id="mmse3" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Day of week</label><input type="number" id="mmse4" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Month</label><input type="number" id="mmse5" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <h3>Orientation to Place (max 5)</h3>
+    <div class="scale-item"><label>Country</label><input type="number" id="mmse6" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>State/County</label><input type="number" id="mmse7" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Town/City</label><input type="number" id="mmse8" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Hospital/Building</label><input type="number" id="mmse9" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Floor/Ward</label><input type="number" id="mmse10" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <h3>Registration (max 3)</h3>
+    <div class="scale-item"><label>Object 1 (e.g. Apple)</label><input type="number" id="mmse11" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Object 2 (e.g. Table)</label><input type="number" id="mmse12" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Object 3 (e.g. Penny)</label><input type="number" id="mmse13" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <h3>Attention &amp; Calculation (max 5) — Serial 7s or WORLD backwards</h3>
+    <div class="scale-item"><label>1st subtraction / W</label><input type="number" id="mmse14" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>2nd subtraction / O</label><input type="number" id="mmse15" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>3rd subtraction / R</label><input type="number" id="mmse16" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>4th subtraction / L</label><input type="number" id="mmse17" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>5th subtraction / D</label><input type="number" id="mmse18" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <h3>Recall (max 3)</h3>
+    <div class="scale-item"><label>Object 1</label><input type="number" id="mmse19" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Object 2</label><input type="number" id="mmse20" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Object 3</label><input type="number" id="mmse21" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <h3>Language (max 8)</h3>
+    <div class="scale-item"><label>Name pencil</label><input type="number" id="mmse22" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Name watch</label><input type="number" id="mmse23" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Repeat "No ifs, ands, or buts"</label><input type="number" id="mmse24" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>3-stage command: take paper in right hand</label><input type="number" id="mmse25" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>3-stage command: fold it in half</label><input type="number" id="mmse26" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>3-stage command: put it on the floor</label><input type="number" id="mmse27" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Read and obey "CLOSE YOUR EYES"</label><input type="number" id="mmse28" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="scale-item"><label>Write a sentence</label><input type="number" id="mmse29" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <h3>Visuospatial (max 1)</h3>
+    <div class="scale-item"><label>Copy intersecting pentagons</label><input type="number" id="mmse30" min="0" max="1" value="0" onchange="calcMMSE()"></div>
+    <div class="score-display" id="mmse-score">Total Score: 0 / 30 — Severe Impairment</div>
+    <div class="btn-row">
+      <button class="btn btn-copy" onclick="copyScale('mmse')">📋 Copy to Clipboard</button>
+      <button class="btn btn-email" onclick="emailScale('mmse')">✉ Send as Email</button>
+      <button class="btn btn-reset" onclick="resetScale('mmse',30)">↺ Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 11 – CDR
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-scale" id="s11">
+  <h2>Clinical Dementia Rating (CDR)</h2>
+  <div class="info-box">
+    <p><strong>Reference:</strong> Morris JC. "The Clinical Dementia Rating (CDR): current version and scoring rules." <em>Neurology.</em> 1993;43(11):2412–2414. | <strong>CDR-SB</strong> = sum of boxes (0–18); recommended for trials (O'Bryant SE et al. <em>Arch Neurol.</em> 2008).</p>
+  </div>
+  <div class="scale-block">
+    <p style="font-size:.82rem;color:#7ec8e3;margin-bottom:8px;">Rate each domain: 0=None, 0.5=Questionable, 1=Mild, 2=Moderate, 3=Severe</p>
+    <div class="scale-item"><label><strong>Memory (M) — Primary category</strong><br><small>0=No memory loss; 0.5=Consistent slight forgetfulness; 1=Moderate memory loss; 2=Severe; 3=Complete</small></label>
+      <select id="cdr1" onchange="calcCDR()"><option value="0">0</option><option value="0.5">0.5</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+    <div class="scale-item"><label><strong>Orientation (O)</strong><br><small>0=Fully oriented; 0.5=Slight time difficulty; 1=Moderate difficulty, place oriented; 2=Usually disoriented to time; 3=Person only</small></label>
+      <select id="cdr2" onchange="calcCDR()"><option value="0">0</option><option value="0.5">0.5</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+    <div class="scale-item"><label><strong>Judgment &amp; Problem Solving (J)</strong><br><small>0=Solves everyday problems; 0.5=Slight impairment; 1=Moderate difficulty in handling problems; 2=Severely impaired; 3=Unable to make judgments</small></label>
+      <select id="cdr3" onchange="calcCDR()"><option value="0">0</option><option value="0.5">0.5</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+    <div class="scale-item"><label><strong>Community Affairs (CA)</strong><br><small>0=Independent function; 0.5=Slight impairment; 1=Unable to function independently, appears normal to casual inspection; 2=No pretense of independent function; 3=No independent function outside home</small></label>
+      <select id="cdr4" onchange="calcCDR()"><option value="0">0</option><option value="0.5">0.5</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+    <div class="scale-item"><label><strong>Home &amp; Hobbies (HH)</strong><br><small>0=Home life, hobbies well maintained; 0.5=Slight impairment; 1=Mild but definite impairment; 2=Only simple chores preserved; 3=No significant function in home</small></label>
+      <select id="cdr5" onchange="calcCDR()"><option value="0">0</option><option value="0.5">0.5</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+    <div class="scale-item"><label><strong>Personal Care (PC)</strong><br><small>0=Fully capable; 1=Needs prompting; 2=Requires assistance in dressing, hygiene, keeping personal effects; 3=Requires much help with personal care; incontinence</small></label>
+      <select id="cdr6" onchange="calcCDR()"><option value="0">0</option><option value="0.5">0.5</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+    <div class="score-display" id="cdr-score">CDR Global: 0 | CDR-SB (Sum of Boxes): 0</div>
+    <div class="btn-row">
+      <button class="btn btn-copy" onclick="copyScale('cdr')">📋 Copy to Clipboard</button>
+      <button class="btn btn-email" onclick="emailScale('cdr')">✉ Send as Email</button>
+      <button class="btn btn-reset" onclick="resetCDR()">↺ Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 12 – NPI
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-scale" id="s12">
+  <h2>Neuropsychiatric Inventory (NPI)</h2>
+  <div class="info-box">
+    <p><strong>Reference:</strong> Cummings JL et al. "The Neuropsychiatric Inventory." <em>Neurology.</em> 1994;44(12):2308–2314. | NPI-Q (brief version): Kaufer DI et al. <em>J Neuropsychiatry Clin Neurosci.</em> 2000;12(2):233–239.</p>
+  </div>
+  <div class="scale-block">
+    <p style="font-size:.82rem;color:#7ec8e3;margin-bottom:8px;">For each domain: <strong>Frequency</strong> (1–4) × <strong>Severity</strong> (1–3) = domain score (max 12). Total max = 144.</p>
+    <div id="npi-items"></div>
+    <div class="score-display" id="npi-score">NPI Total: 0 / 144 | Caregiver Distress: 0 / 60</div>
+    <div class="btn-row">
+      <button class="btn btn-copy" onclick="copyScale('npi')">📋 Copy to Clipboard</button>
+      <button class="btn btn-email" onclick="emailScale('npi')">✉ Send as Email</button>
+      <button class="btn btn-reset" onclick="resetNPI()">↺ Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 13 – MoCA
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-scale" id="s13">
+  <h2>Montreal Cognitive Assessment (MoCA)</h2>
+  <div class="info-box">
+    <p><strong>Reference:</strong> Nasreddine ZS et al. "The Montreal Cognitive Assessment, MoCA." <em>J Am Geriatr Soc.</em> 2005;53(4):695–699. | Max score: 30 (+1 if ≤12 years education). Cut-off: ≥26 = Normal.</p>
+  </div>
+  <div class="scale-block" id="moca-form">
+    <h3>Visuospatial / Executive (max 5)</h3>
+    <div class="scale-item"><label>Trail-making alternation (1pt)</label><input type="number" id="moca1" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Copy cube (1pt)</label><input type="number" id="moca2" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Draw clock — Contour (1pt)</label><input type="number" id="moca3" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Draw clock — Numbers (1pt)</label><input type="number" id="moca4" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Draw clock — Hands (1pt)</label><input type="number" id="moca5" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <h3>Naming (max 3)</h3>
+    <div class="scale-item"><label>Lion</label><input type="number" id="moca6" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Rhinoceros</label><input type="number" id="moca7" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Camel</label><input type="number" id="moca8" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <h3>Memory — Delayed Recall (max 5)</h3>
+    <div class="scale-item"><label>Word 1 (Face)</label><input type="number" id="moca9" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Word 2 (Velvet)</label><input type="number" id="moca10" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Word 3 (Church)</label><input type="number" id="moca11" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Word 4 (Daisy)</label><input type="number" id="moca12" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Word 5 (Red)</label><input type="number" id="moca13" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <h3>Attention (max 6)</h3>
+    <div class="scale-item"><label>Forward digit span (5-2-1-4-3 — 5 digits)</label><input type="number" id="moca14" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Backward digit span (7-4-2 — 3 digits)</label><input type="number" id="moca15" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Vigilance (tap at A)</label><input type="number" id="moca16" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Serial 7s: 93</label><input type="number" id="moca17" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Serial 7s: 86</label><input type="number" id="moca18" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Serial 7s: 79, 72, 65 (1pt if ≥2 correct; 2pt if ≥3; 3pt if 5)</label><input type="number" id="moca19" min="0" max="3" value="0" onchange="calcMoCA()"></div>
+    <h3>Language (max 3)</h3>
+    <div class="scale-item"><label>Repeat sentence 1</label><input type="number" id="moca20" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Repeat sentence 2</label><input type="number" id="moca21" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Fluency (≥11 words in 1 min)</label><input type="number" id="moca22" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <h3>Abstraction (max 2)</h3>
+    <div class="scale-item"><label>Train–bicycle similarity</label><input type="number" id="moca23" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Watch–ruler similarity</label><input type="number" id="moca24" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <h3>Orientation (max 6)</h3>
+    <div class="scale-item"><label>Date</label><input type="number" id="moca25" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Month</label><input type="number" id="moca26" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Year</label><input type="number" id="moca27" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Day of week</label><input type="number" id="moca28" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>Place</label><input type="number" id="moca29" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="scale-item"><label>City</label><input type="number" id="moca30" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <h3>Education Adjustment</h3>
+    <div class="scale-item"><label>+1 if ≤12 years education</label><input type="number" id="moca31" min="0" max="1" value="0" onchange="calcMoCA()"></div>
+    <div class="score-display" id="moca-score">Total Score: 0 / 30</div>
+    <div class="btn-row">
+      <button class="btn btn-copy" onclick="copyScale('moca')">📋 Copy to Clipboard</button>
+      <button class="btn btn-email" onclick="emailScale('moca')">✉ Send as Email</button>
+      <button class="btn btn-reset" onclick="resetScale('moca',31)">↺ Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 14 – CASI
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-scale" id="s14">
+  <h2>Cognitive Abilities Screening Instrument (CASI)</h2>
+  <div class="info-box">
+    <p><strong>Reference:</strong> Teng EL, Hasegawa K, Homma A, et al. "The Cognitive Abilities Screening Instrument (CASI)." <em>Int Psychogeriatr.</em> 1994;6(1):45–58. | Max score: 100. Cut-off: &lt;74 = cognitive impairment.</p>
+  </div>
+  <div class="scale-block">
+    <p style="font-size:.82rem;color:#7ec8e3;margin-bottom:10px;">CASI covers 9 cognitive domains (total 100 points). Enter domain scores below.</p>
+    <div class="scale-item"><label><strong>Long-Term Memory</strong> (max 12): Remote personal history, famous people</label><input type="number" id="casi1" min="0" max="12" value="0" onchange="calcCASI()"></div>
+    <div class="scale-item"><label><strong>Short-Term Memory</strong> (max 17): Name/address recall, paragraph recall</label><input type="number" id="casi2" min="0" max="17" value="0" onchange="calcCASI()"></div>
+    <div class="scale-item"><label><strong>Attention / Concentration</strong> (max 8): Digit span, WORLD backwards</label><input type="number" id="casi3" min="0" max="8" value="0" onchange="calcCASI()"></div>
+    <div class="scale-item"><label><strong>Mental Manipulation</strong> (max 10): Serial subtraction</label><input type="number" id="casi4" min="0" max="10" value="0" onchange="calcCASI()"></div>
+    <div class="scale-item"><label><strong>Orientation</strong> (max 18): Date, time, place, person</label><input type="number" id="casi5" min="0" max="18" value="0" onchange="calcCASI()"></div>
+    <div class="scale-item"><label><strong>Abstract Thinking</strong> (max 12): Similarities, proverbs</label><input type="number" id="casi6" min="0" max="12" value="0" onchange="calcCASI()"></div>
+    <div class="scale-item"><label><strong>Language</strong> (max 10): Naming, comprehension, repetition</label><input type="number" id="casi7" min="0" max="10" value="0" onchange="calcCASI()"></div>
+    <div class="scale-item"><label><strong>Visual Construction</strong> (max 7): Copy intersecting pentagons, clock drawing</label><input type="number" id="casi8" min="0" max="7" value="0" onchange="calcCASI()"></div>
+    <div class="scale-item"><label><strong>Category Fluency</strong> (max 6): Animals in 1 minute</label><input type="number" id="casi9" min="0" max="6" value="0" onchange="calcCASI()"></div>
+    <div class="score-display" id="casi-score">CASI Total: 0 / 100</div>
+    <div class="highlight-box" style="margin-top:8px;font-size:.82rem;">
+      <p>CASI ≥74: Normal | 55–73: Mild impairment | &lt;55: Moderate–Severe | Cross-cultural validity validated in Chinese, Japanese, American populations</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-copy" onclick="copyScale('casi')">📋 Copy to Clipboard</button>
+      <button class="btn btn-email" onclick="emailScale('casi')">✉ Send as Email</button>
+      <button class="btn btn-reset" onclick="resetCASI()">↺ Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 15 – FAST
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-scale" id="s15">
+  <h2>Functional Assessment Staging Tool (FAST)</h2>
+  <div class="info-box">
+    <p><strong>Reference:</strong> Reisberg B. "Functional assessment staging (FAST)." <em>Psychopharmacol Bull.</em> 1988;24(4):653–659. | Used in <strong>hospice eligibility</strong> for Alzheimer's dementia (Medicare LCD). Stage ≥7A + ≥1 complication = eligible.</p>
+  </div>
+  <div class="scale-block">
+    <p style="font-size:.82rem;color:#7ec8e3;margin-bottom:10px;">Select the highest applicable stage (each stage subsumes all prior)</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Stage</th><th>Description</th><th>MMSE equiv.</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1</strong></td><td>Normal adult — No functional decrement</td><td>30</td></tr>
+          <tr><td><strong>2</strong></td><td>Normal older adult — Subjective deficit (forgetting names/locations)</td><td>28–29</td></tr>
+          <tr><td><strong>3</strong></td><td>Early AD — Decreased job functioning, getting lost in new locations</td><td>24–28</td></tr>
+          <tr><td><strong>4</strong></td><td>Mild AD — Decreased ability to handle complex ADLs (finances, cooking)</td><td>20–23</td></tr>
+          <tr><td><strong>5</strong></td><td>Moderate AD — Needs assistance choosing clothes; some disorientation</td><td>15–19</td></tr>
+          <tr><td><strong>6a</strong></td><td>Moderately severe AD — Needs help dressing</td><td rowspan="5">3–9</td></tr>
+          <tr><td><strong>6b</strong></td><td>Needs help bathing properly</td></tr>
+          <tr><td><strong>6c</strong></td><td>Needs help with mechanics of toileting (e.g., wiping)</td></tr>
+          <tr><td><strong>6d</strong></td><td>Urinary incontinence</td></tr>
+          <tr><td><strong>6e</strong></td><td>Fecal incontinence</td></tr>
+          <tr><td><strong>7a</strong></td><td><em>Severe AD</em> — Speech limited to ≤6 intelligible words/day</td><td rowspan="6">0–3</td></tr>
+          <tr><td><strong>7b</strong></td><td>Speech limited to single intelligible word/day</td></tr>
+          <tr><td><strong>7c</strong></td><td>Ambulatory ability lost</td></tr>
+          <tr><td><strong>7d</strong></td><td>Ability to sit up lost (without assistance/straps)</td></tr>
+          <tr><td><strong>7e</strong></td><td>Ability to smile lost</td></tr>
+          <tr><td><strong>7f</strong></td><td>Ability to hold head up lost</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:14px;">
+      <div class="scale-item">
+        <label><strong>Select Current FAST Stage</strong></label>
+        <select id="fast-stage" onchange="calcFAST()" style="width:120px;">
+          <option value="1">Stage 1</option>
+          <option value="2">Stage 2</option>
+          <option value="3">Stage 3</option>
+          <option value="4">Stage 4</option>
+          <option value="5">Stage 5</option>
+          <option value="6a">Stage 6a</option>
+          <option value="6b">Stage 6b</option>
+          <option value="6c">Stage 6c</option>
+          <option value="6d">Stage 6d</option>
+          <option value="6e">Stage 6e</option>
+          <option value="7a">Stage 7a</option>
+          <option value="7b">Stage 7b</option>
+          <option value="7c">Stage 7c</option>
+          <option value="7d">Stage 7d</option>
+          <option value="7e">Stage 7e</option>
+          <option value="7f">Stage 7f</option>
+        </select>
+      </div>
+      <div class="scale-item" style="margin-top:8px;">
+        <label><strong>Complications present (for Stage 7+)</strong><br><small>Aspiration pneumonia, pyelonephritis, septicemia, decubitus ulcer grade 3–4, fever with no identifiable cause in past 12 months</small></label>
+        <select id="fast-compl" onchange="calcFAST()" style="width:100px;">
+          <option value="0">None</option>
+          <option value="1">1+</option>
+        </select>
+      </div>
+    </div>
+    <div class="score-display" id="fast-score">FAST Stage 1 — No functional decrement</div>
+    <div class="btn-row">
+      <button class="btn btn-copy" onclick="copyScale('fast')">📋 Copy to Clipboard</button>
+      <button class="btn btn-email" onclick="emailScale('fast')">✉ Send as Email</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 16 – SECTION 3 DIVIDER
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-section" id="s16">
+  <div class="section-center">
+    <div class="section-num">03</div>
+    <div class="section-title">Management Framework</div>
+    <div class="section-sub">Pharmacological · Non-pharmacological · End-of-Life Care</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 17 – PHARMACOLOGICAL MANAGEMENT
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" id="s17">
+  <h2>Pharmacological Management</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Drug Class</th><th>Agent</th><th>Indication</th><th>Evidence</th><th>Key Notes</th></tr></thead>
+      <tbody>
+        <tr><td>ChEI</td><td>Donepezil</td><td>AD mild–severe; DLB; PDD</td><td>Level A</td><td>Bradycardia risk; nightmares at 10mg</td></tr>
+        <tr><td>ChEI</td><td>Rivastigmine</td><td>AD; PDD (Level A); DLB</td><td>Level A</td><td>Patch preferred (fewer GI effects); only ChEI with PDD Level A</td></tr>
+        <tr><td>ChEI</td><td>Galantamine</td><td>AD mild–moderate; VaD (adjunct)</td><td>Level A</td><td>Dual mechanism: ChEI + nAChR allosteric modulator</td></tr>
+        <tr><td>NMDAR antagonist</td><td>Memantine</td><td>AD moderate–severe; VaD</td><td>Level A</td><td>Add-on to ChEI in moderate–severe AD; well tolerated</td></tr>
+        <tr><td>Anti-amyloid mAb</td><td>Lecanemab</td><td>Early AD (MCI–mild)</td><td>Phase 3 (CLARITY)</td><td>ARIA monitoring MRI required; 18% cognitive decline reduction; van Dyck CH et al. NEJM 2023</td></tr>
+        <tr><td>Anti-amyloid mAb</td><td>Donanemab</td><td>Early AD</td><td>Phase 3 (TRAILBLAZER-ALZ2)</td><td>35% slower decline (Sims JR et al. JAMA 2023)</td></tr>
+        <tr><td>SSRI/SNRI</td><td>Sertraline, citalopram</td><td>Depression/anxiety in dementia</td><td>Level B</td><td>CitAD trial: citalopram reduced agitation (but QTc risk)</td></tr>
+        <tr><td>Atypical antipsychotic</td><td>Quetiapine, Risperidone</td><td>Severe psychosis/aggression</td><td>Limited; black-box warning</td><td>Use lowest dose, short-term only; <strong>CONTRAINDICATED in DLB</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="warn-box" style="margin-top:10px;">
+    <strong>FDA Black Box Warning:</strong> Antipsychotics in elderly with dementia-related psychosis carry increased mortality risk (1.6–1.7×). Use only after risk-benefit discussion and documented consent.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 18 – NON-PHARM & HOSPICE
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" id="s18">
+  <h2>Non-Pharmacological Interventions &amp; Hospice/Palliative Care</h2>
+  <div class="cards cards-2">
+    <div class="card">
+      <h3>Evidence-Based Non-Pharmacological</h3>
+      <ul class="bullet">
+        <li><strong>Cognitive stimulation therapy (CST):</strong> Level 1A evidence; improves cognition &amp; QoL (Spector A et al. <em>Br J Psychiatry</em> 2003)</li>
+        <li><strong>Physical exercise:</strong> Aerobic + resistance training; slows cognitive decline</li>
+        <li><strong>Music therapy:</strong> Reduces agitation and depression (Cochrane 2020)</li>
+        <li><strong>Reminiscence therapy:</strong> Improves mood; caregiver interaction</li>
+        <li><strong>Occupational therapy:</strong> Caregiver training; functional independence</li>
+        <li><strong>Sleep hygiene &amp; light therapy:</strong> Circadian regulation; reduces sundowning</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Hospice Eligibility (FAST Stage ≥7A)</h3>
+      <ul class="bullet">
+        <li>FAST ≥7A + ≥1 of: aspiration pneumonia, pyelonephritis/UTI with sepsis, septicemia, decubitus ulcer grade 3–4, fever recurring after antibiotics, inability to maintain sufficient fluid/calorie intake</li>
+        <li>Goals: comfort, dignity, symptom management</li>
+        <li><strong>Comfort measures:</strong> Oral care, pressure ulcer prevention, dysphagia management</li>
+        <li><strong>PEG tube:</strong> No mortality/comfort benefit in advanced dementia (Finucane TE et al. <em>JAMA</em> 1999) — consider hand feeding</li>
+        <li><strong>ACP:</strong> POLST/MOLST, DNR, designated healthcare proxy; early in disease course</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Caregiver Support</h3>
+      <ul class="bullet">
+        <li>Caregiver burnout: screen with Zarit Burden Interview (ZBI)</li>
+        <li>Psychoeducation, respite care, support groups</li>
+        <li>Alzheimer's Association 24/7 helpline</li>
+        <li>Home safety assessment; driving cessation counseling</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Dysphagia Management</h3>
+      <ul class="bullet">
+        <li>FEES/VFSS swallowing evaluation</li>
+        <li>IDDSI texture modification (Levels 0–7)</li>
+        <li>Positioning: upright 90°, chin tuck</li>
+        <li>Aspiration pneumonia: most common cause of death in advanced AD</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 19 – REFERENCES
+════════════════════════════════════════════════════════════ -->
+<div class="slide slide-ref" id="s19">
+  <h2>Key Evidence-Based References</h2>
+  <div class="cards cards-2">
+    <div class="card">
+      <h3>Diagnostic Criteria &amp; Pathophysiology</h3>
+      <ul class="bullet" style="font-size:.82rem;">
+        <li>Jack CR Jr et al. NIA-AA Research Framework 2018. <em>Alzheimers Dement.</em> 2018;14:535–562.</li>
+        <li>McKhann GM et al. NIA-AA AD Diagnostic Guidelines. <em>Alzheimers Dement.</em> 2011;7:263–269.</li>
+        <li>Sachdev P et al. VASCOG Criteria for VaD. <em>Alzheimers Dement.</em> 2014;10:539–550.</li>
+        <li>Rascovsky K et al. bvFTD International Consensus Criteria. <em>Brain</em> 2011;134:2456–2477.</li>
+        <li>Gorno-Tempini ML et al. PPA Classification Criteria. <em>Neurology</em> 2011;76:1006–1014.</li>
+        <li>McKeith IG et al. 4th DLB Consensus Criteria. <em>Neurology</em> 2017;89:88–100.</li>
+        <li>Emre M et al. PDD Clinical Diagnostic Criteria. <em>Lancet Neurol.</em> 2007;6:708–720.</li>
+        <li>Graus F et al. Autoimmune Encephalitis Criteria. <em>Lancet Neurol.</em> 2016;15:391–404.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Assessment Scales</h3>
+      <ul class="bullet" style="font-size:.82rem;">
+        <li>Folstein MF et al. MMSE. <em>J Psychiatr Res.</em> 1975;12:189–198.</li>
+        <li>Morris JC. CDR current version and scoring. <em>Neurology.</em> 1993;43:2412–2414.</li>
+        <li>Cummings JL et al. NPI. <em>Neurology.</em> 1994;44:2308–2314.</li>
+        <li>Nasreddine ZS et al. MoCA. <em>J Am Geriatr Soc.</em> 2005;53:695–699.</li>
+        <li>Teng EL et al. CASI. <em>Int Psychogeriatr.</em> 1994;6:45–58.</li>
+        <li>Reisberg B. FAST. <em>Psychopharmacol Bull.</em> 1988;24:653–659.</li>
+        <li>O'Bryant SE et al. CDR-SB validity. <em>Arch Neurol.</em> 2008;65:1091–1095.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Treatment</h3>
+      <ul class="bullet" style="font-size:.82rem;">
+        <li>van Dyck CH et al. Lecanemab (CLARITY AD). <em>NEJM.</em> 2023;388:9–21.</li>
+        <li>Sims JR et al. Donanemab (TRAILBLAZER-ALZ 2). <em>JAMA.</em> 2023;330:512–527.</li>
+        <li>Birks JS, Harvey RJ. Donepezil for dementia. <em>Cochrane Database Syst Rev.</em> 2018.</li>
+        <li>Spector A et al. Cognitive stimulation therapy. <em>Br J Psychiatry.</em> 2003;183:248–254.</li>
+        <li>Finucane TE et al. Tube feeding in advanced dementia. <em>JAMA.</em> 1999;282:1365–1370.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Guidelines</h3>
+      <ul class="bullet" style="font-size:.82rem;">
+        <li>AAN Practice Guidelines: Dementia 2020 update. <em>Neurology.</em> 2020.</li>
+        <li>NICE NG97: Dementia: assessment, management and support. 2018.</li>
+        <li>WHO. Global action plan on the public health response to dementia 2017–2025.</li>
+        <li>Alzheimer's Association Clinical Practice Guidelines 2023.</li>
+        <li>AGS Beers Criteria 2023 — Medications to Avoid in Older Adults.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div><!-- end #slides -->
+
+<!-- ── NAVIGATION ── -->
+<div id="nav">
+  <button id="prev-btn" onclick="navigate(-1)" disabled>◀ Previous</button>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <button id="toc-btn" onclick="toggleTOC()">☰ Contents</button>
+    <span id="slide-counter">1 / 19</span>
+  </div>
+  <button id="next-btn" onclick="navigate(1)">Next ▶</button>
+</div>
+
+<!-- ── TOC MODAL ── -->
+<div id="toc-modal">
+  <div id="toc-inner">
+    <h2>Table of Contents</h2>
+    <div id="toc-list"></div>
+    <button class="btn btn-reset" style="margin-top:16px;width:100%;" onclick="toggleTOC()">✕ Close</button>
+  </div>
+</div>
+
+<script>
+// ── STATE ──
+const TOTAL = 19;
+let current = 1;
+
+const tocData = [
+  [1,'Title Slide'],
+  [2,'Section 1: Dementia Syndromes'],
+  [3,'Alzheimer\'s Disease (AD)'],
+  [4,'Vascular Dementia (VaD)'],
+  [5,'Frontotemporal Dementia (FTD) — 4 Variants'],
+  [6,'DLB & Parkinson\'s Disease Dementia'],
+  [7,'Metabolic & Autoimmune Encephalopathy'],
+  [8,'Cognitive Domain Comparison Table'],
+  [9,'Section 2: Assessment Scales'],
+  [10,'MMSE (Interactive Scoring)'],
+  [11,'CDR (Interactive Scoring)'],
+  [12,'NPI (Interactive Scoring)'],
+  [13,'MoCA (Interactive Scoring)'],
+  [14,'CASI (Interactive Scoring)'],
+  [15,'FAST — Hospice Staging'],
+  [16,'Section 3: Management'],
+  [17,'Pharmacological Management'],
+  [18,'Non-Pharmacological & Hospice Care'],
+  [19,'Evidence-Based References'],
+];
+
+// ── SLIDE NAVIGATION ──
+function getSlide(n){return document.getElementById('s'+n);}
+function navigate(dir){
+  const next=current+dir;
+  if(next<1||next>TOTAL)return;
+  const old=getSlide(current);
+  old.classList.remove('active');
+  old.classList.add('exit');
+  setTimeout(()=>old.classList.remove('exit'),500);
+  current=next;
+  const s=getSlide(current);
+  s.classList.add('active');
+  s.scrollTop=0;
+  updateNav();
+}
+function goTo(n){
+  if(n===current)return;
+  navigate(n-current);
+  toggleTOC();
+}
+function updateNav(){
+  document.getElementById('slide-counter').textContent=current+' / '+TOTAL;
+  document.getElementById('prev-btn').disabled=(current===1);
+  document.getElementById('next-btn').disabled=(current===TOTAL);
+  const pct=((current-1)/(TOTAL-1)*100);
+  document.getElementById('progress-bar').style.width=pct+'%';
+}
+// keyboard navigation
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown')navigate(1);
+  if(e.key==='ArrowLeft'||e.key==='PageUp')navigate(-1);
+});
+
+// ── TOC ──
+function toggleTOC(){
+  document.getElementById('toc-modal').classList.toggle('open');
+}
+document.getElementById('toc-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('toc-modal'))toggleTOC();
+});
+(function buildTOC(){
+  const list=document.getElementById('toc-list');
+  tocData.forEach(([n,label])=>{
+    const d=document.createElement('div');
+    d.className='toc-item';
+    d.innerHTML=`<div class="toc-num">${n}</div><div class="toc-label">${label}</div>`;
+    d.onclick=()=>goTo(n);
+    list.appendChild(d);
+  });
+})();
+
+// ── TOAST ──
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ─────────────────────────────────────────────────
+// MMSE
+// ─────────────────────────────────────────────────
+function mmseLabel(s){
+  if(s>=24)return'Normal (≥24)';
+  if(s>=18)return'Mild impairment (18–23)';
+  if(s>=10)return'Moderate impairment (10–17)';
+  return'Severe impairment (<10)';
+}
+function calcMMSE(){
+  let total=0;
+  for(let i=1;i<=30;i++){
+    const el=document.getElementById('mmse'+i);
+    if(el)total+=parseFloat(el.value||0);
+  }
+  total=Math.min(30,Math.max(0,Math.round(total)));
+  document.getElementById('mmse-score').textContent=`Total Score: ${total} / 30 — ${mmseLabel(total)}`;
+  return total;
+}
+function resetScale(prefix,count){
+  for(let i=1;i<=count;i++){const el=document.getElementById(prefix+i);if(el)el.value=0;}
+  if(prefix==='mmse')calcMMSE();
+  if(prefix==='moca')calcMoCA();
+}
+
+// ─────────────────────────────────────────────────
+// CDR
+// ─────────────────────────────────────────────────
+function calcCDR(){
+  const vals=[
+    parseFloat(document.getElementById('cdr1').value||0),
+    parseFloat(document.getElementById('cdr2').value||0),
+    parseFloat(document.getElementById('cdr3').value||0),
+    parseFloat(document.getElementById('cdr4').value||0),
+    parseFloat(document.getElementById('cdr5').value||0),
+    parseFloat(document.getElementById('cdr6').value||0)
+  ];
+  const sb=vals.reduce((a,b)=>a+b,0);
+  const M=vals[0];// Memory is primary
+  // CDR Global algorithm (Morris 1993)
+  let global=0;
+  const secondaries=vals.slice(1);
+  const allZero=vals.every(v=>v===0);
+  const allHalf=vals.every(v=>v===0.5);
+  if(allZero)global=0;
+  else if(M===0&&sb<=0.5)global=0;
+  else if(M===0.5&&sb<=2.5)global=0.5;
+  else{
+    const nonM=secondaries;
+    const count=v=>nonM.filter(x=>x===v).length;
+    const majority=(v)=>count(v)>=3;
+    if(majority(M))global=M;
+    else{
+      // tiebreak: more secondaries match M
+      const higher=nonM.filter(x=>x>M).length;
+      const lower=nonM.filter(x=>x<M).length;
+      if(higher>lower)global=Math.max(...nonM.filter(x=>x>M));
+      else if(lower>higher)global=Math.min(...nonM.filter(x=>x<M));
+      else global=M;
+    }
+  }
+  const labels={0:'No dementia',0.5:'Questionable dementia',1:'Mild dementia',2:'Moderate dementia',3:'Severe dementia'};
+  document.getElementById('cdr-score').textContent=`CDR Global: ${global} (${labels[global]||''}) | CDR-SB (Sum of Boxes): ${sb.toFixed(1)}`;
+  return{global,sb};
+}
+function resetCDR(){
+  for(let i=1;i<=6;i++)document.getElementById('cdr'+i).value='0';
+  calcCDR();
+}
+
+// ─────────────────────────────────────────────────
+// NPI
+// ─────────────────────────────────────────────────
+const npiDomains=[
+  'Delusions','Hallucinations','Agitation/Aggression','Depression/Dysphoria',
+  'Anxiety','Elation/Euphoria','Apathy/Indifference','Disinhibition',
+  'Irritability/Lability','Aberrant Motor Behaviour','Sleep/Nighttime Behaviour','Appetite/Eating'
+];
+(function buildNPI(){
+  const c=document.getElementById('npi-items');
+  npiDomains.forEach((d,i)=>{
+    c.innerHTML+=`
+    <div class="scale-item" style="flex-wrap:wrap;gap:8px;">
+      <label style="min-width:200px;"><strong>${d}</strong></label>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span style="font-size:.75rem;color:#7ec8e3;">Frequency (1–4):</span>
+        <input type="number" id="npi_f${i}" min="0" max="4" value="0" style="width:52px;" onchange="calcNPI()">
+        <span style="font-size:.75rem;color:#7ec8e3;">Severity (1–3):</span>
+        <input type="number" id="npi_s${i}" min="0" max="3" value="0" style="width:52px;" onchange="calcNPI()">
+        <span style="font-size:.75rem;color:#7ec8e3;">Caregiver distress (0–5):</span>
+        <input type="number" id="npi_d${i}" min="0" max="5" value="0" style="width:52px;" onchange="calcNPI()">
+      </div>
+    </div>`;
+  });
+})();
+function calcNPI(){
+  let total=0,distress=0;
+  npiDomains.forEach((_,i)=>{
+    const f=Math.min(4,Math.max(0,parseFloat(document.getElementById('npi_f'+i).value||0)));
+    const s=Math.min(3,Math.max(0,parseFloat(document.getElementById('npi_s'+i).value||0)));
+    const d=Math.min(5,Math.max(0,parseFloat(document.getElementById('npi_d'+i).value||0)));
+    total+=f*s;distress+=d;
+  });
+  document.getElementById('npi-score').textContent=`NPI Total: ${total} / 144 | Caregiver Distress: ${distress} / 60`;
+  return{total,distress};
+}
+function resetNPI(){
+  npiDomains.forEach((_,i)=>{
+    document.getElementById('npi_f'+i).value=0;
+    document.getElementById('npi_s'+i).value=0;
+    document.getElementById('npi_d'+i).value=0;
+  });
+  calcNPI();
+}
+
+// ─────────────────────────────────────────────────
+// MoCA
+// ─────────────────────────────────────────────────
+function mocaLabel(s){
+  if(s>=26)return'Normal';
+  if(s>=18)return'Mild cognitive impairment';
+  if(s>=10)return'Moderate impairment';
+  return'Severe impairment';
+}
+function calcMoCA(){
+  let total=0;
+  for(let i=1;i<=31;i++){
+    const el=document.getElementById('moca'+i);
+    if(el)total+=parseFloat(el.value||0);
+  }
+  total=Math.min(30,Math.max(0,Math.round(total)));
+  document.getElementById('moca-score').textContent=`Total Score: ${total} / 30 — ${mocaLabel(total)}`;
+  return total;
+}
+
+// ─────────────────────────────────────────────────
+// CASI
+// ─────────────────────────────────────────────────
+const casiMaxes=[12,17,8,10,18,12,10,7,6];
+const casiLabels=['Long-Term Memory','Short-Term Memory','Attention/Concentration','Mental Manipulation','Orientation','Abstract Thinking','Language','Visual Construction','Category Fluency'];
+function calcCASI(){
+  let total=0;
+  for(let i=1;i<=9;i++){
+    const v=parseFloat(document.getElementById('casi'+i).value||0);
+    total+=Math.min(casiMaxes[i-1],Math.max(0,v));
+  }
+  let interp='';
+  if(total>=74)interp='Normal';
+  else if(total>=55)interp='Mild impairment';
+  else interp='Moderate–Severe impairment';
+  document.getElementById('casi-score').textContent=`CASI Total: ${Math.round(total)} / 100 — ${interp}`;
+  return total;
+}
+function resetCASI(){
+  for(let i=1;i<=9;i++)document.getElementById('casi'+i).value=0;
+  calcCASI();
+}
+
+// ─────────────────────────────────────────────────
+// FAST
+// ─────────────────────────────────────────────────
+const fastDesc={
+  '1':'No functional decrement — Normal adult',
+  '2':'Normal older adult — Subjective memory complaints',
+  '3':'Early AD — Decreased occupational functioning, getting lost in new locations',
+  '4':'Mild AD — Decreased ability in complex ADLs (finances, meal preparation)',
+  '5':'Moderate AD — Needs assistance selecting clothes; some disorientation',
+  '6a':'Moderately Severe — Needs help dressing',
+  '6b':'Needs help bathing',
+  '6c':'Needs help with toileting mechanics',
+  '6d':'Urinary incontinence',
+  '6e':'Fecal incontinence',
+  '7a':'Severe AD — Speech ≤6 intelligible words/day ★ HOSPICE ELIGIBLE if complications present',
+  '7b':'Speech limited to 1 intelligible word/day',
+  '7c':'Ambulatory ability lost',
+  '7d':'Ability to sit up lost',
+  '7e':'Ability to smile lost',
+  '7f':'Ability to hold head up lost — End stage',
+};
+function calcFAST(){
+  const stage=document.getElementById('fast-stage').value;
+  const compl=document.getElementById('fast-compl').value;
+  let msg=`FAST Stage ${stage}: ${fastDesc[stage]}`;
+  const stageNum=parseFloat(stage);
+  if(stageNum>=7||stage.startsWith('7')){
+    msg+=compl==='1'?' | ✅ HOSPICE ELIGIBLE (Stage ≥7A + complications)':' | ⚠ Complications needed for hospice eligibility';
+  }
+  document.getElementById('fast-score').textContent=msg;
+  return{stage,msg};
+}
+
+// ─────────────────────────────────────────────────
+// COPY / EMAIL helpers
+// ─────────────────────────────────────────────────
+function getScaleText(scale){
+  let txt='';
+  const d=new Date().toLocaleDateString();
+  if(scale==='mmse'){
+    const items=[
+      'Year','Season','Date','Day of week','Month',
+      'Country','State','Town','Hospital/Building','Floor',
+      'Object 1','Object 2','Object 3',
+      'Serial 1','Serial 2','Serial 3','Serial 4','Serial 5',
+      'Recall 1','Recall 2','Recall 3',
+      'Name pencil','Name watch','Repeat phrase','Command 1','Command 2','Command 3','Close eyes','Write sentence','Copy pentagons'
+    ];
+    let total=0;
+    txt=`Mini-Mental State Examination (MMSE)\nDate: ${d}\n${'─'.repeat(45)}\n`;
+    items.forEach((lbl,idx)=>{
+      const v=parseFloat(document.getElementById('mmse'+(idx+1)).value||0);
+      total+=v;
+      txt+=`${lbl}: ${v}\n`;
+    });
+    txt+=`${'─'.repeat(45)}\nTotal: ${Math.min(30,total)} / 30 — ${mmseLabel(Math.min(30,total))}\n`;
+    txt+=`\nRef: Folstein MF et al. J Psychiatr Res. 1975;12:189–198.`;
+  } else if(scale==='cdr'){
+    const{global,sb}=calcCDR();
+    const domains=['Memory (M)','Orientation (O)','Judgment & Problem Solving (J)','Community Affairs (CA)','Home & Hobbies (HH)','Personal Care (PC)'];
+    txt=`Clinical Dementia Rating (CDR)\nDate: ${d}\n${'─'.repeat(45)}\n`;
+    domains.forEach((l,i)=>{
+      txt+=`${l}: ${document.getElementById('cdr'+(i+1)).value}\n`;
+    });
+    txt+=`${'─'.repeat(45)}\nCDR Global: ${global} | CDR-SB (Sum of Boxes): ${sb.toFixed(1)}\n`;
+    txt+=`\nRef: Morris JC. Neurology. 1993;43:2412–2414.`;
+  } else if(scale==='npi'){
+    const{total,distress}=calcNPI();
+    txt=`Neuropsychiatric Inventory (NPI)\nDate: ${d}\n${'─'.repeat(45)}\n`;
+    npiDomains.forEach((d,i)=>{
+      const f=document.getElementById('npi_f'+i).value;
+      const s=document.getElementById('npi_s'+i).value;
+      const dist=document.getElementById('npi_d'+i).value;
+      txt+=`${d}: Freq=${f} Sev=${s} Score=${f*s} Caregiver distress=${dist}\n`;
+    });
+    txt+=`${'─'.repeat(45)}\nNPI Total: ${total}/144 | Caregiver Distress: ${distress}/60\n`;
+    txt+=`\nRef: Cummings JL et al. Neurology. 1994;44:2308–2314.`;
+  } else if(scale==='moca'){
+    const items=['Trail-making','Copy cube','Clock contour','Clock numbers','Clock hands','Lion','Rhinoceros','Camel','Recall Word1','Recall Word2','Recall Word3','Recall Word4','Recall Word5','Forward digits','Backward digits','Vigilance','Serial7-93','Serial7-86','Serial7s(×3)','Repeat sent1','Repeat sent2','Fluency','Similarity1','Similarity2','Date','Month','Year','Day','Place','City','Education+1'];
+    let total=0;
+    txt=`Montreal Cognitive Assessment (MoCA)\nDate: ${d}\n${'─'.repeat(45)}\n`;
+    items.forEach((lbl,idx)=>{
+      const v=parseFloat(document.getElementById('moca'+(idx+1)).value||0);
+      total+=v;
+      txt+=`${lbl}: ${v}\n`;
+    });
+    txt+=`${'─'.repeat(45)}\nTotal: ${Math.min(30,total)} / 30 — ${mocaLabel(Math.min(30,total))}\n`;
+    txt+=`\nRef: Nasreddine ZS et al. J Am Geriatr Soc. 2005;53:695–699.`;
+  } else if(scale==='casi'){
+    let total=0;
+    txt=`Cognitive Abilities Screening Instrument (CASI)\nDate: ${d}\n${'─'.repeat(45)}\n`;
+    casiLabels.forEach((lbl,i)=>{
+      const v=parseFloat(document.getElementById('casi'+(i+1)).value||0);
+      total+=Math.min(casiMaxes[i],Math.max(0,v));
+      txt+=`${lbl} (max ${casiMaxes[i]}): ${v}\n`;
+    });
+    txt+=`${'─'.repeat(45)}\nCASI Total: ${Math.round(total)} / 100\n`;
+    txt+=`\nRef: Teng EL et al. Int Psychogeriatr. 1994;6:45–58.`;
+  } else if(scale==='fast'){
+    const stage=document.getElementById('fast-stage').value;
+    const compl=document.getElementById('fast-compl').value;
+    txt=`Functional Assessment Staging Tool (FAST)\nDate: ${d}\n${'─'.repeat(45)}\n`;
+    txt+=`Stage: ${stage}\nDescription: ${fastDesc[stage]}\n`;
+    txt+=`Complications (for hospice): ${compl==='1'?'Yes (1 or more present)':'None documented'}\n`;
+    const stageNum=parseFloat(stage)||0;
+    if(stage.startsWith('7')&&compl==='1')txt+=`Hospice Eligibility: ELIGIBLE (Stage ≥7A + complications)\n`;
+    txt+=`\nRef: Reisberg B. Psychopharmacol Bull. 1988;24:653–659.`;
+  }
+  return txt;
+}
+
+function copyScale(scale){
+  const txt=getScaleText(scale);
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(txt).then(()=>showToast('✅ Copied to clipboard!')).catch(()=>fallbackCopy(txt));
+  } else fallbackCopy(txt);
+}
+function fallbackCopy(txt){
+  const ta=document.createElement('textarea');
+  ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');showToast('✅ Copied to clipboard!');}
+  catch(e){showToast('❌ Copy failed — please copy manually');}
+  document.body.removeChild(ta);
+}
+function emailScale(scale){
+  const txt=getScaleText(scale);
+  const subjects={mmse:'MMSE Assessment Results',cdr:'CDR Assessment Results',npi:'NPI Assessment Results',moca:'MoCA Assessment Results',casi:'CASI Assessment Results',fast:'FAST Staging Results'};
+  const subject=encodeURIComponent(subjects[scale]||'Assessment Results');
+  const body=encodeURIComponent(txt);
+  window.location.href=`mailto:?subject=${subject}&body=${body}`;
+  showToast('📧 Opening email client...');
+}
+
+// ── INIT ──
+updateNav();
+calcMMSE();calcCDR();calcNPI();calcMoCA();calcCASI();calcFAST();
+</script>
+</body>
+</html>
