@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dementia: Neuroimaging, Clinical Findings &amp; AI Advances</title>
+<style>
+  :root{
+    --primary:#1a3a5c;
+    --accent:#2e86ab;
+    --accent2:#e84855;
+    --gold:#f4a261;
+    --light:#f0f4f8;
+    --white:#fff;
+    --text:#1e2a38;
+    --shadow:0 4px 24px rgba(0,0,0,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#0d1b2a;color:var(--text);overflow:hidden;height:100vh;}
+
+  #progress-bar{position:fixed;top:0;left:0;height:4px;background:var(--gold);transition:width .4s;z-index:999;}
+
+  #slides{width:100%;height:100vh;position:relative;}
+  .slide{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;
+    opacity:0;pointer-events:none;
+    transition:opacity .5s,transform .5s;
+    transform:translateX(60px);
+    overflow-y:auto;
+    padding:30px 48px 90px;
+  }
+  .slide.active{opacity:1;pointer-events:all;transform:translateX(0);}
+  .slide.exit{opacity:0;transform:translateX(-60px);}
+
+  .slide-title{background:linear-gradient(135deg,#0d1b2a 0%,#1a3a5c 60%,#2e86ab 100%);}
+  .slide-section{background:linear-gradient(135deg,#0f2942 0%,#1d4e89 100%);}
+  .slide-content{background:linear-gradient(160deg,#0d1b2a 0%,#152538 100%);}
+  .slide-ref{background:linear-gradient(160deg,#1a0d2a 0%,#2a1a3a 100%);}
+  .slide-ai{background:linear-gradient(160deg,#0d1b2a 0%,#0d2a1a 100%);}
+
+  h1{font-size:2.6rem;font-weight:700;color:#fff;line-height:1.2;text-shadow:0 2px 8px rgba(0,0,0,.4);}
+  h2{font-size:2rem;font-weight:700;color:#7ec8e3;margin-bottom:18px;}
+  h3{font-size:1.3rem;font-weight:600;color:var(--gold);margin:12px 0 6px;}
+  h4{font-size:1rem;font-weight:600;color:#a8d8ea;margin:8px 0 4px;}
+  p,li{font-size:.95rem;color:#cdd8e3;line-height:1.65;}
+  strong{color:#fff;}
+  em{color:var(--gold);font-style:normal;}
+  a{color:#7ec8e3;text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.05em;margin-left:6px;}
+  .badge-ad{background:#e84855;color:#fff;}
+  .badge-vasc{background:#2e86ab;color:#fff;}
+  .badge-ftd{background:#f4a261;color:#1e2a38;}
+  .badge-dlb{background:#6a4c93;color:#fff;}
+  .badge-pdd{background:#3a7d44;color:#fff;}
+  .badge-ai{background:#1a7a4a;color:#fff;}
+  .badge-new{background:#f4a261;color:#1e2a38;}
+
+  .cards{display:grid;gap:16px;margin-top:16px;}
+  .cards-2{grid-template-columns:repeat(2,1fr);}
+  .cards-3{grid-template-columns:repeat(3,1fr);}
+  .cards-4{grid-template-columns:repeat(4,1fr);}
+  .card{
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+    border-radius:12px;padding:16px;transition:transform .2s,box-shadow .2s;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(46,134,171,.25);}
+  .card-ai{border-color:rgba(26,122,74,.4);background:rgba(26,122,74,.08);}
+  .card-img{border-color:rgba(46,134,171,.4);background:rgba(46,134,171,.08);}
+  .card-clin{border-color:rgba(244,162,97,.3);background:rgba(244,162,97,.07);}
+
+  .tbl-wrap{overflow-x:auto;margin-top:14px;}
+  table{width:100%;border-collapse:collapse;font-size:.82rem;}
+  thead th{background:rgba(46,134,171,.35);color:#7ec8e3;padding:8px 10px;text-align:left;border-bottom:2px solid rgba(46,134,171,.5);}
+  tbody td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.07);color:#cdd8e3;vertical-align:top;}
+  tbody tr:hover td{background:rgba(255,255,255,.05);}
+  .cell-y{color:#6fcf97;font-weight:600;}
+  .cell-n{color:#eb5757;font-weight:600;}
+  .cell-p{color:var(--gold);font-weight:600;}
+  .cell-m{color:#a8d8ea;}
+
+  #nav{
+    position:fixed;bottom:0;left:0;right:0;
+    background:rgba(13,27,42,.95);backdrop-filter:blur(10px);
+    border-top:1px solid rgba(255,255,255,.1);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:10px 24px;z-index:100;
+  }
+  #nav button{
+    background:var(--accent);color:#fff;border:none;border-radius:8px;
+    padding:8px 24px;font-size:.9rem;font-weight:600;cursor:pointer;
+    transition:background .2s,opacity .2s;
+  }
+  #nav button:disabled{background:rgba(255,255,255,.1);color:rgba(255,255,255,.3);cursor:not-allowed;}
+  #nav button:not(:disabled):hover{background:#1a6a8a;}
+  #slide-counter{color:rgba(255,255,255,.6);font-size:.85rem;}
+  #toc-btn{background:rgba(255,255,255,.1);color:#cdd8e3;border:none;border-radius:8px;
+    padding:8px 16px;font-size:.85rem;cursor:pointer;}
+  #toc-btn:hover{background:rgba(255,255,255,.18);}
+
+  #toc-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:200;}
+  #toc-modal.open{display:flex;}
+  #toc-inner{background:#0f2942;border:1px solid rgba(255,255,255,.15);border-radius:16px;width:min(640px,92vw);max-height:82vh;overflow-y:auto;padding:28px;}
+  #toc-inner h2{color:#7ec8e3;margin-bottom:16px;}
+  .toc-item{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:background .15s;}
+  .toc-item:hover{background:rgba(255,255,255,.08);}
+  .toc-num{min-width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;}
+  .toc-label{color:#cdd8e3;font-size:.9rem;}
+
+  .title-center{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:80vh;text-align:center;gap:16px;}
+  .subtitle{font-size:1.2rem;color:#7ec8e3;font-weight:400;}
+  .author-line{font-size:.9rem;color:rgba(255,255,255,.5);margin-top:8px;}
+  .pill{display:inline-block;padding:4px 14px;border-radius:999px;background:rgba(46,134,171,.25);border:1px solid rgba(46,134,171,.4);font-size:.8rem;color:#7ec8e3;margin:3px;}
+
+  .section-center{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:70vh;text-align:center;gap:12px;}
+  .section-num{font-size:5rem;font-weight:900;color:rgba(255,255,255,.07);line-height:1;}
+  .section-title{font-size:2.2rem;font-weight:700;color:#fff;}
+  .section-sub{font-size:1rem;color:#7ec8e3;}
+
+  ul.check li{list-style:none;padding-left:1.5em;position:relative;}
+  ul.check li::before{content:'✓';position:absolute;left:0;color:#6fcf97;font-weight:700;}
+  ul.bullet li{margin-left:1.2em;margin-bottom:4px;}
+
+  .highlight-box{background:rgba(244,162,97,.12);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 16px;margin:10px 0;}
+  .info-box{background:rgba(46,134,171,.12);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 16px;margin:10px 0;}
+  .warn-box{background:rgba(232,72,85,.1);border-left:4px solid var(--accent2);border-radius:0 8px 8px 0;padding:12px 16px;margin:10px 0;}
+  .green-box{background:rgba(26,122,74,.12);border-left:4px solid #1a7a4a;border-radius:0 8px 8px 0;padding:12px 16px;margin:10px 0;}
+
+  .cite{font-size:.75rem;color:rgba(255,255,255,.38);font-style:italic;display:block;margin-top:4px;}
+
+  .key-hint{position:fixed;top:16px;right:20px;color:rgba(255,255,255,.25);font-size:.75rem;}
+
+  @media(max-width:700px){
+    .slide{padding:20px 18px 90px;}
+    h1{font-size:1.8rem;}h2{font-size:1.4rem;}
+    .cards-3,.cards-4{grid-template-columns:1fr;}
+    .cards-2{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div class="key-hint">← → Arrow keys / swipe to navigate</div>
+
+<div id="slides">
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 1 — TITLE
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-title active" data-toc="Title">
+  <div class="title-center">
+    <h1>Dementia: Neuroimaging, Clinical Findings &amp; AI Advances</h1>
+    <p class="subtitle">A Comprehensive Educational Overview</p>
+    <div style="margin-top:10px;">
+      <span class="pill">Neuroimaging</span>
+      <span class="pill">Neurophysiology</span>
+      <span class="pill">Clinical Diagnosis</span>
+      <span class="pill">Artificial Intelligence</span>
+    </div>
+    <p class="author-line">Evidence-based • Peer-reviewed sources • Updated 2024–2025</p>
+    <div class="info-box" style="margin-top:18px;max-width:560px;text-align:left;">
+      <p>This presentation covers the most distinctive neuroimaging (MRI, CT, PET, SPECT) and neurophysiologic (EEG, evoked potentials) biomarkers in major dementia syndromes, their hallmark clinical features, and the rapidly evolving role of artificial intelligence in dementia detection and care.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 2 — SECTION DIVIDER: NEUROIMAGING
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-section" data-toc="Section 1: Neuroimaging &amp; Neurophysiology">
+  <div class="section-center">
+    <div class="section-num">01</div>
+    <div class="section-title">Neuroimaging &amp; Neurophysiology</div>
+    <div class="section-sub">MRI · CT · Amyloid/Tau PET · SPECT · EEG · Evoked Potentials</div>
+    <p style="max-width:560px;color:#a8d8ea;margin-top:12px;">
+      Biomarker-based diagnosis is now central to dementia classification. The 2024 revised Alzheimer's Association Research Framework (Jack et al., <em>Alzheimers Dement</em> 2024) and NIA-AA 2011 criteria anchor diagnosis to imaging and CSF/plasma biomarkers.
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 3 — MRI IN DEMENTIA
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="MRI Findings">
+  <h2>Structural MRI — Hallmark Findings</h2>
+  <div class="cards cards-2">
+    <div class="card card-img">
+      <h3>Alzheimer's Disease <span class="badge badge-ad">AD</span></h3>
+      <ul class="bullet">
+        <li><strong>Hippocampal &amp; entorhinal atrophy</strong> — earliest MRI sign; Scheltens MTA scale ≥2 (age-adjusted) is a key visual rating</li>
+        <li>Posterior cortical thinning (parietal, precuneus) on FreeSurfer volumetry</li>
+        <li>White matter changes (mild-moderate) — not a primary feature</li>
+        <li>Lobar microbleeds if CAA co-exists; important for anti-amyloid therapy selection</li>
+      </ul>
+      <span class="cite">Jack et al., Alzheimers Dement 2024; Scheltens et al., Lancet 2021</span>
+    </div>
+    <div class="card card-img">
+      <h3>Vascular Dementia <span class="badge badge-vasc">VaD</span></h3>
+      <ul class="bullet">
+        <li><strong>White matter hyperintensities (WMH)</strong> — Fazekas scale ≥2; periventricular &amp; subcortical</li>
+        <li>Lacunar infarcts in strategic areas (thalamus, basal ganglia, internal capsule)</li>
+        <li>Cortical/territorial infarcts for multi-infarct dementia</li>
+        <li>CADASIL: bilateral anterior temporal pole WMH (O'Sullivan sign)</li>
+      </ul>
+      <span class="cite">Román et al., Neurology 1993 (NINDS-AIREN); Wardlaw et al., Lancet Neurol 2013</span>
+    </div>
+    <div class="card card-img">
+      <h3>Frontotemporal Dementia <span class="badge badge-ftd">FTD</span></h3>
+      <ul class="bullet">
+        <li><strong>Frontal &amp; anterior temporal lobe atrophy</strong> — "knife-blade" gyri on axial MRI</li>
+        <li>bvFTD: bilateral frontal &gt; temporal (orbitofrontal, anterior cingulate)</li>
+        <li>PNFA: left perisylvian; SD: left &gt; right temporal pole atrophy</li>
+        <li>Asymmetric pattern helps distinguish from AD</li>
+      </ul>
+      <span class="cite">Rascovsky et al., Brain 2011; Seeley et al., Ann Neurol 2009</span>
+    </div>
+    <div class="card card-img">
+      <h3>DLB &amp; PDD <span class="badge badge-dlb">DLB</span> <span class="badge badge-pdd">PDD</span></h3>
+      <ul class="bullet">
+        <li><strong>Relative preservation of hippocampal/medial temporal volume</strong> — distinguishes from AD</li>
+        <li>Occipital cortex hypometabolism/atrophy</li>
+        <li>Substantia nigra neuromelanin-sensitive MRI: reduced signal</li>
+        <li>Locus coeruleus atrophy detectable on neuromelanin MRI</li>
+      </ul>
+      <span class="cite">McKeith et al., Neurology 2017 (4th DLB Consortium); Grinberg et al., J Neuropathol 2009</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 4 — CT IN DEMENTIA
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="CT Findings">
+  <h2>CT Brain — Role &amp; Key Findings</h2>
+  <div class="info-box">
+    <p>CT remains the first-line neuroimaging in most acute settings and is mandated by many dementia guidelines (NICE, AAN) to exclude reversible causes before MRI. It lacks the soft-tissue contrast of MRI but is widely available and rapid.</p>
+  </div>
+  <div class="cards cards-3" style="margin-top:16px;">
+    <div class="card">
+      <h3>Primary Uses</h3>
+      <ul class="bullet">
+        <li>Exclude structural causes (SDH, NPH, tumour)</li>
+        <li>Detect calcifications (FAHR disease, hypoparathyroidism)</li>
+        <li>Visualise global/focal atrophy</li>
+        <li>Exclude large cortical/subcortical infarcts</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>AD on CT</h3>
+      <ul class="bullet">
+        <li>Medial temporal lobe &amp; sylvian fissure widening</li>
+        <li>Generalised sulcal enlargement relative to age</li>
+        <li>Third ventricle dilation</li>
+        <li>Sensitivity lower than MRI for early atrophy</li>
+      </ul>
+      <span class="cite">Frisoni et al., Nat Rev Neurol 2010</span>
+    </div>
+    <div class="card">
+      <h3>NPH &amp; Other</h3>
+      <ul class="bullet">
+        <li><strong>Normal Pressure Hydrocephalus</strong>: Evans index &gt;0.3; periventricular lucency; tight high-convexity sulci (disproportionately enlarged subarachnoid space hydrocephalus, DESH)</li>
+        <li>Chronic SDH: crescent hypodense collection</li>
+        <li>Fazekas WMH grading also applicable on CT</li>
+      </ul>
+      <span class="cite">Relkin et al., Neurosurgery 2005; Jaraj et al., Neurology 2014</span>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top:16px;">
+    <p><strong>Key Point:</strong> When CT is normal and clinical suspicion remains high, MRI (volumetric 3D T1) is the preferred next step. CT–MRI correlation is essential in vascular dementia where WMH subtypes differ in prognosis.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 5 — AMYLOID PET
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="Amyloid PET">
+  <h2>Amyloid PET — The "A" Biomarker</h2>
+  <div class="cards cards-2">
+    <div class="card card-img">
+      <h3>Tracers &amp; Regulatory Status</h3>
+      <ul class="bullet">
+        <li><strong>Florbetapir (¹⁸F-AV45)</strong> — FDA approved 2012</li>
+        <li><strong>Flutemetamol (¹⁸F)</strong> — FDA/EMA approved 2013</li>
+        <li><strong>Florbetaben (¹⁸F-NaF)</strong> — FDA approved 2014</li>
+        <li>All show cortical-to-cerebellum SUVR elevation with amyloid positivity</li>
+      </ul>
+      <span class="cite">Clark et al., JAMA 2011; Barthel et al., Lancet Neurol 2011</span>
+    </div>
+    <div class="card card-img">
+      <h3>Interpretation</h3>
+      <ul class="bullet">
+        <li><strong>Visual read</strong>: grey-white matter contrast loss in neocortex → positive</li>
+        <li><strong>SUVR quantification</strong>: centiloid scale (0–100 range) standardises across tracers</li>
+        <li>Precuneus, posterior cingulate, lateral temporal, frontal cortex affected earliest</li>
+        <li>Centiloid &gt;24.4 = amyloid positive (Klunk et al., <em>Alzheimers Dement</em> 2015)</li>
+      </ul>
+    </div>
+    <div class="card card-img">
+      <h3>Clinical Utility</h3>
+      <ul class="bullet">
+        <li>Approved appropriate-use criteria: MCI or dementia with diagnostic uncertainty (AUC, Johnson et al., <em>J Nucl Med</em> 2013)</li>
+        <li>Negative amyloid PET essentially excludes AD (NPV &gt;94%)</li>
+        <li>Now required for lecanemab/donanemab trial enrolment and clinical use</li>
+        <li>CMS 2024: Coverage with Evidence Development — IDEAS registry data</li>
+      </ul>
+      <span class="cite">Rabinovici et al., JAMA 2019 (IDEAS study)</span>
+    </div>
+    <div class="card card-img">
+      <h3>Amyloid in Non-AD Dementias</h3>
+      <ul class="bullet">
+        <li>DLB: ~50% amyloid-positive (mixed pathology)</li>
+        <li>FTD: typically amyloid-negative; positive result argues against FTD</li>
+        <li>VaD: amyloid can be incidental (age-related); does not confirm AD</li>
+        <li>CAA: diffuse cortical amyloid accumulation</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 6 — TAU PET
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="Tau PET">
+  <h2>Tau PET — The "T" Biomarker</h2>
+  <div class="info-box">
+    <p>Tau PET measures neurofibrillary tangle (NFT) burden in vivo. Unlike amyloid PET, tau patterns track disease <strong>stage</strong> and <strong>clinical phenotype</strong>, making it a powerful prognostic tool.</p>
+    <span class="cite">Ossenkoppele et al., Science 2016; Leuzy et al., Nat Rev Neurol 2023</span>
+  </div>
+  <div class="cards cards-3" style="margin-top:14px;">
+    <div class="card">
+      <h3>First-Generation: ¹⁸F-Flortaucipir (AV-1451)</h3>
+      <ul class="bullet">
+        <li>FDA approved May 2020 for AD evaluation</li>
+        <li>Mesial temporal (EC/hippocampus) → isocortex spread mirrors Braak staging</li>
+        <li>Braak I–II: entorhinal; III–IV: limbic; V–VI: neocortical</li>
+        <li>Off-target binding: choroid plexus, meninges, melanocytes</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Second-Generation Tracers</h3>
+      <ul class="bullet">
+        <li><strong>¹⁸F-MK-6240</strong>: lower off-target; sensitive early-stage</li>
+        <li><strong>¹⁸F-PI-2620</strong>: binds 3R and 4R tau (useful in PSP, CBD)</li>
+        <li><strong>¹⁸F-RO-948</strong>: high specificity for AD tau</li>
+      </ul>
+      <span class="cite">Leuzy et al., Nat Rev Neurol 2023</span>
+    </div>
+    <div class="card">
+      <h3>Tau Spread Patterns by Syndrome</h3>
+      <ul class="bullet">
+        <li><strong>Typical AD</strong>: posterior-predominant neocortical tau</li>
+        <li><strong>PCA</strong>: occipital–parietal tau</li>
+        <li><strong>lvPPA</strong>: left perisylvian tau</li>
+        <li><strong>PSP</strong>: subthalamic nucleus, globus pallidus, midbrain (PI-2620)</li>
+        <li><strong>CBD</strong>: asymmetric cortical + subcortical</li>
+      </ul>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top:14px;">
+    <strong>2024 Update:</strong> NIA-AA 2024 Revised Criteria include tau PET as a core biomarker alongside amyloid and neurodegeneration markers. Tau PET is now used clinically to stage AD for anti-tau therapeutic trials (e.g., semorinemab, zagotenemab).
+    <span class="cite">Jack et al., Alzheimers Dement 2024</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 7 — FDG-PET & SPECT
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="FDG-PET &amp; SPECT">
+  <h2>FDG-PET &amp; SPECT — Functional Imaging</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Modality / Tracer</th>
+          <th>Dementia Syndrome</th>
+          <th>Characteristic Pattern</th>
+          <th>Key Reference</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>¹⁸F-FDG PET</strong></td>
+          <td><span class="badge badge-ad">AD</span></td>
+          <td>Bilateral temporoparietal &amp; posterior cingulate hypometabolism; frontal in late stage</td>
+          <td class="cell-m">Minoshima et al., J Nucl Med 1997</td>
+        </tr>
+        <tr>
+          <td>¹⁸F-FDG PET</td>
+          <td><span class="badge badge-ftd">bvFTD</span></td>
+          <td>Bilateral anterior frontal &amp; anterior temporal hypometabolism; relative parietal sparing</td>
+          <td class="cell-m">Diehl-Schmid et al., Eur J Nucl Med 2007</td>
+        </tr>
+        <tr>
+          <td>¹⁸F-FDG PET</td>
+          <td><span class="badge badge-dlb">DLB</span></td>
+          <td>Posterior cortical + <strong>occipital</strong> hypometabolism; "cingulate island sign" (preserved posterior cingulate)</td>
+          <td class="cell-m">McKeith et al., Neurology 2017</td>
+        </tr>
+        <tr>
+          <td>¹⁸F-FDG PET</td>
+          <td>CBD / PSP</td>
+          <td>CBD: asymmetric cortical-subcortical; PSP: midbrain &amp; frontal hypometabolism</td>
+          <td class="cell-m">Whitwell et al., Neurology 2017</td>
+        </tr>
+        <tr>
+          <td><strong>¹²³I-FP-CIT SPECT</strong> (DaTSCAN)</td>
+          <td><span class="badge badge-dlb">DLB</span> / <span class="badge badge-pdd">PDD</span></td>
+          <td>Reduced striatal dopamine transporter uptake (putamen &gt; caudate); comma → dot sign</td>
+          <td class="cell-m">McKeith et al., Neurology 2017 (Indicative biomarker)</td>
+        </tr>
+        <tr>
+          <td>¹²³I-MIBG SPECT</td>
+          <td><span class="badge badge-dlb">DLB</span></td>
+          <td>Reduced cardiac sympathetic innervation (heart-to-mediastinum ratio &lt;1.6); separates DLB from PD/PSNP</td>
+          <td class="cell-m">Yoshita et al., Neurology 2006</td>
+        </tr>
+        <tr>
+          <td>Tc-99m HMPAO/ECD SPECT</td>
+          <td><span class="badge badge-ad">AD</span></td>
+          <td>Temporoparietal perfusion deficit; widely available; lower resolution than FDG-PET</td>
+          <td class="cell-m">NICE guideline NG97 2018</td>
+        </tr>
+        <tr>
+          <td>Tc-99m HMPAO SPECT</td>
+          <td><span class="badge badge-ftd">FTD</span></td>
+          <td>Frontal hypoperfusion; may help differentiate from AD when MRI equivocal</td>
+          <td class="cell-m">Diehl-Schmid et al., Eur J Nucl Med 2007</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="info-box" style="margin-top:14px;">
+    <strong>DaTSCAN specificity &gt;85%</strong> for separating DLB/PDD from AD/VaD. Now included as an <em>indicative biomarker</em> in the 4th DLB Consortium criteria (McKeith et al., <em>Neurology</em> 2017).
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 8 — EEG IN DEMENTIA
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="EEG Findings">
+  <h2>Electroencephalography (EEG)</h2>
+  <div class="cards cards-2">
+    <div class="card">
+      <h3>AD — EEG Signatures</h3>
+      <ul class="bullet">
+        <li><strong>Diffuse slowing</strong>: progressive increase in theta/delta; alpha peak frequency slows (normal 8–12 Hz → &lt;8 Hz in moderate AD)</li>
+        <li><strong>Decreased alpha/beta coherence</strong> between frontal-parietal regions</li>
+        <li><strong>Increased delta power</strong> correlates with cognitive decline (MMSE correlation r ≈ −0.60)</li>
+        <li>Quantitative EEG (qEEG): spectral analysis shows ratio of slow-to-fast bands ↑</li>
+      </ul>
+      <span class="cite">Jeong et al., Clin Neurophysiol 2004; Babiloni et al., Clin Neurophysiol 2016</span>
+    </div>
+    <div class="card">
+      <h3>DLB — Distinctive EEG</h3>
+      <ul class="bullet">
+        <li><strong>Prominent slow-wave activity (&lt;8 Hz)</strong> more severe than AD at equivalent MMSE</li>
+        <li><strong>Fluctuating dominant frequency</strong> — correlates with fluctuating cognition (a core DLB feature)</li>
+        <li><strong>Temporal intermittent rhythmic delta activity (TIRDA)</strong> — reported in DLB</li>
+        <li>Pre-alpha transients in occipital regions</li>
+      </ul>
+      <span class="cite">Bonanni et al., J Neurol Neurosurg Psychiatry 2008; McKeith et al., Neurology 2017</span>
+    </div>
+    <div class="card">
+      <h3>CJD — Pathognomonic EEG</h3>
+      <ul class="bullet">
+        <li><strong>Periodic sharp wave complexes (PSWCs)</strong> — triphasic morphology, 1–2 Hz, generalized</li>
+        <li>Present in ~65% sporadic CJD; ~90% in late stage</li>
+        <li>Part of WHO diagnostic criteria for sCJD</li>
+        <li>EEG sensitivity ~66%, specificity ~74% for PSWCs in sCJD</li>
+      </ul>
+      <span class="cite">WHO diagnostic criteria for CJD; Zerr et al., Brain 2009</span>
+    </div>
+    <div class="card">
+      <h3>FTD &amp; Other</h3>
+      <ul class="bullet">
+        <li>FTD: often <strong>normal or minimally abnormal EEG</strong> in early stages — useful differentiator from AD/DLB</li>
+        <li>VaD: focal slow-wave activity corresponding to infarct locations</li>
+        <li>NPH: diffuse theta slowing, improves post-shunt in responders</li>
+        <li>Quantitative EEG (network connectivity) emerging as diagnostic adjunct</li>
+      </ul>
+      <span class="cite">Pijnenburg et al., J Neurol Neurosurg Psychiatry 2004</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 9 — EVOKED POTENTIALS
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="Evoked Potentials">
+  <h2>Evoked Potentials in Dementia</h2>
+  <div class="info-box">
+    <p>Evoked potentials (EPs) measure brain electrical responses to stimuli and reflect synaptic integrity of specific pathways. They are non-invasive, cost-effective, and sensitive to early neurodegeneration.</p>
+  </div>
+  <div class="cards cards-3" style="margin-top:14px;">
+    <div class="card">
+      <h3>P300 (Cognitive ERP)</h3>
+      <ul class="bullet">
+        <li><strong>Prolonged P300 latency</strong> — most consistent finding in AD (normal ~300–350 ms; AD: &gt;400 ms)</li>
+        <li>Reduced P300 amplitude reflects attention/memory network dysfunction</li>
+        <li>Positive correlation with severity of cognitive decline</li>
+        <li>Meta-analysis: P300 latency prolonged in MCI → AD conversion (Polich 2007)</li>
+      </ul>
+      <span class="cite">Polich et al., Clin Neurophysiol 2007; Ally et al., Brain Cogn 2009</span>
+    </div>
+    <div class="card">
+      <h3>N200 &amp; MMN</h3>
+      <ul class="bullet">
+        <li><strong>N200 latency prolonged</strong> in AD; reflects pre-attentive auditory discrimination</li>
+        <li>Mismatch negativity (MMN) amplitude reduced in moderate AD</li>
+        <li>MMN relatively preserved in mild AD vs. schizophrenia</li>
+        <li>MMN may detect processing deficits before clinical dementia</li>
+      </ul>
+      <span class="cite">Gaeta et al., Neuropsychologia 1999</span>
+    </div>
+    <div class="card">
+      <h3>VEP, BAEP, SSEP</h3>
+      <ul class="bullet">
+        <li><strong>VEP (P100)</strong>: prolonged in AD; reflects posterior cortical/visual association area dysfunction</li>
+        <li><strong>BAEP</strong>: relatively preserved in AD, abnormal in CJD (brainstem involvement)</li>
+        <li><strong>SSEP N20</strong>: generally normal in early AD; abnormal in CJD and vascular brainstem lesions</li>
+        <li>Flash VEP amplitude correlates with occipital atrophy in DLB</li>
+      </ul>
+      <span class="cite">Filipovic et al., J Neurophysiol 1990; Babiloni et al., Clin Neurophysiol 2016</span>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top:12px;">
+    <strong>Clinical Pearl:</strong> In rapid-onset dementia, the combination of PSWCs on EEG + abnormal BAEP/SSEP + 14-3-3 protein in CSF strongly supports sporadic CJD (sensitivity ~90% combined, Zerr et al., <em>Brain</em> 2009).
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 10 — BIOMARKER COMPARISON TABLE
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="Biomarker Comparison">
+  <h2>Neuroimaging Biomarker Comparison Across Dementias</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Finding</th>
+          <th>AD</th>
+          <th>VaD</th>
+          <th>DLB</th>
+          <th>FTD</th>
+          <th>PSP/CBD</th>
+          <th>CJD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Hippocampal Atrophy (MRI)</strong></td>
+          <td class="cell-y">+++ (early)</td>
+          <td class="cell-p">+ (variable)</td>
+          <td class="cell-n">± (relative sparing)</td>
+          <td class="cell-n">± (late)</td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+        </tr>
+        <tr>
+          <td><strong>WMH (MRI/CT)</strong></td>
+          <td class="cell-p">±</td>
+          <td class="cell-y">+++ (diagnostic)</td>
+          <td class="cell-p">±</td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+        </tr>
+        <tr>
+          <td><strong>Frontal/Temporal Atrophy (MRI)</strong></td>
+          <td class="cell-p">± (late)</td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+          <td class="cell-y">+++ (early)</td>
+          <td class="cell-p">+ PSP: midbrain</td>
+          <td class="cell-n">—</td>
+        </tr>
+        <tr>
+          <td><strong>Amyloid PET positive</strong></td>
+          <td class="cell-y">+++ (&gt;95%)</td>
+          <td class="cell-n">— (incidental)</td>
+          <td class="cell-p">~50%</td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+        </tr>
+        <tr>
+          <td><strong>Tau PET positive</strong></td>
+          <td class="cell-y">+++ (Braak staging)</td>
+          <td class="cell-n">—</td>
+          <td class="cell-p">± (low)</td>
+          <td class="cell-n">— (3R/4R non-AD)</td>
+          <td class="cell-y">++ (PI-2620)</td>
+          <td class="cell-n">—</td>
+        </tr>
+        <tr>
+          <td><strong>FDG-PET temporoparietal</strong></td>
+          <td class="cell-y">+++ (bilateral)</td>
+          <td class="cell-n">—</td>
+          <td class="cell-p">+ occipital dominant</td>
+          <td class="cell-n">— (frontal instead)</td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+        </tr>
+        <tr>
+          <td><strong>DaTSCAN (SPECT)</strong></td>
+          <td class="cell-n">Normal</td>
+          <td class="cell-n">Normal</td>
+          <td class="cell-y">+++ Reduced</td>
+          <td class="cell-n">Normal</td>
+          <td class="cell-p">± Reduced</td>
+          <td class="cell-n">—</td>
+        </tr>
+        <tr>
+          <td><strong>EEG PSWCs</strong></td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+          <td class="cell-y">+++ (sCJD)</td>
+        </tr>
+        <tr>
+          <td><strong>P300 Prolongation</strong></td>
+          <td class="cell-y">+++ (consistent)</td>
+          <td class="cell-p">++</td>
+          <td class="cell-p">++</td>
+          <td class="cell-p">++</td>
+          <td class="cell-p">+</td>
+          <td class="cell-p">+</td>
+        </tr>
+        <tr>
+          <td><strong>DWI Cortical Ribboning (MRI)</strong></td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+          <td class="cell-y">+++ (pathognomonic)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <span class="cite" style="margin-top:8px;display:block;">Sources: Jack et al. 2024; McKeith et al. 2017; Rascovsky et al. 2011; Zerr et al. 2009; Wardlaw et al. 2013</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 11 — SECTION DIVIDER: CLINICAL FINDINGS
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-section" data-toc="Section 2: Clinical Findings">
+  <div class="section-center">
+    <div class="section-num">02</div>
+    <div class="section-title">Distinct Clinical Findings</div>
+    <div class="section-sub">Cognitive · Behavioural · Motor · Psychiatric · Autonomic</div>
+    <p style="max-width:560px;color:#a8d8ea;margin-top:12px;">
+      Clinical phenotyping remains the cornerstone of dementia diagnosis. Current consensus criteria (NIA-AA, DLB Consortium, FTDC, NINDS-AIREN) define dementia syndromes by their characteristic cognitive, behavioural, and motor profiles.
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 12 — AD CLINICAL FEATURES
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="AD Clinical Features">
+  <h2>Alzheimer's Disease — Clinical Profile <span class="badge badge-ad">AD</span></h2>
+  <div class="cards cards-3">
+    <div class="card card-clin">
+      <h3>Core Cognitive Features</h3>
+      <ul class="bullet">
+        <li><strong>Episodic memory impairment</strong> — earliest and most prominent; poor recall, intrusions, rapid forgetting</li>
+        <li>Semantic memory loss in later stages</li>
+        <li>Visuospatial deficits (posterior cortical atrophy variant)</li>
+        <li>Executive dysfunction and language impairment emerge later</li>
+      </ul>
+      <span class="cite">McKhann et al., Alzheimers Dement 2011</span>
+    </div>
+    <div class="card card-clin">
+      <h3>Behavioural / Neuropsychiatric</h3>
+      <ul class="bullet">
+        <li>Apathy (most common NPS, ~50–70%)</li>
+        <li>Depression (30–40%), anxiety (20–30%)</li>
+        <li>Agitation/aggression in moderate-to-severe stages</li>
+        <li>Psychosis (delusions ~20–30%, hallucinations ~10–15%)</li>
+        <li>Wandering; sleep disturbance (REM intact early)</li>
+      </ul>
+      <span class="cite">Lyketsos et al., JAMA 2002; Steinberg et al., Am J Psychiatry 2008</span>
+    </div>
+    <div class="card card-clin">
+      <h3>Motor &amp; Other</h3>
+      <ul class="bullet">
+        <li>Motor features absent in early–mild AD</li>
+        <li>Extrapyramidal signs in late stages (parkinsonian features ~10%)</li>
+        <li>Primitive reflexes (snout, grasp) emerge late</li>
+        <li>Seizures: ~10–20% lifetime risk (especially young-onset, APOE ε4)</li>
+        <li>Loss of ADLs: IADL before BADL (Lawton &amp; Brody hierarchy)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top:14px;">
+    <strong>Diagnostic Criteria (NIA-AA 2011, revised 2024):</strong> Probable AD dementia requires (1) insidious onset, (2) worsening cognitive history, (3) cognitive deficits on exam in memory + other domains, (4) no better explanation. Biomarkers (amyloid-A, tau-T, neurodegeneration-N) stratify certainty into high/intermediate/low probability.
+    <span class="cite">McKhann et al., Alzheimers Dement 2011; Jack et al., Alzheimers Dement 2024</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 13 — VaD CLINICAL FEATURES
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="Vascular Dementia Clinical Features">
+  <h2>Vascular Dementia — Clinical Profile <span class="badge badge-vasc">VaD</span></h2>
+  <div class="cards cards-2">
+    <div class="card card-clin">
+      <h3>Core Features</h3>
+      <ul class="bullet">
+        <li><strong>Executive dysfunction dominant</strong> — working memory, processing speed, attention affected &gt; episodic memory</li>
+        <li>Stepwise or abrupt onset (post-stroke VaD) vs. gradual (small vessel disease)</li>
+        <li>Focal neurological deficits consistent with stroke(s)</li>
+        <li>Temporal relationship between vascular event and cognitive decline (within 3 months)</li>
+      </ul>
+      <span class="cite">Román et al., Neurology 1993; Sachdev et al., BMC Med 2014 (VASCOG criteria)</span>
+    </div>
+    <div class="card card-clin">
+      <h3>Subtype-Specific Features</h3>
+      <ul class="bullet">
+        <li><strong>Multi-infarct dementia</strong>: focal deficits, abrupt steps, Hachinski Ischemic Score ≥7</li>
+        <li><strong>Subcortical VaD (SVD)</strong>: gait disorder ("marche à petits pas"), urinary urgency/incontinence, pseudobulbar affect, without focal signs</li>
+        <li><strong>CADASIL</strong>: migraine with aura (onset), recurrent strokes, psychiatric features, dementia</li>
+        <li><strong>Strategic infarct dementia</strong>: single infarct in thalamus, caudate, hippocampus → dense amnesia</li>
+      </ul>
+    </div>
+    <div class="card card-clin">
+      <h3>Behavioural &amp; Neuropsychiatric</h3>
+      <ul class="bullet">
+        <li>Depression (most common NPS, ~40–50%)</li>
+        <li>Apathy, emotional lability</li>
+        <li>Pseudobulbar affect (frontal circuit damage)</li>
+        <li>Less prominent hallucinations vs. DLB</li>
+      </ul>
+    </div>
+    <div class="card card-clin">
+      <h3>Motor Features</h3>
+      <ul class="bullet">
+        <li>Gait disturbance: early, prominent in SVD</li>
+        <li>Pyramidal signs (hyperreflexia, Babinski)</li>
+        <li>Dysarthria/dysphagia in bilateral vascular disease</li>
+        <li>Parkinsonism (lower body): shuffling gait without tremor</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 14 — DLB CLINICAL FEATURES
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="DLB Clinical Features">
+  <h2>Dementia with Lewy Bodies — Clinical Profile <span class="badge badge-dlb">DLB</span></h2>
+  <div class="info-box">
+    <strong>Core Clinical Features (≥2 for probable DLB; ≥1 with indicative biomarker):</strong>
+    <ul class="check" style="margin-top:8px;">
+      <li>Fluctuating cognition with pronounced variation in attention and alertness</li>
+      <li>Recurrent well-formed visual hallucinations (typically people, animals)</li>
+      <li>REM sleep behaviour disorder (RBD) — may precede dementia by decades</li>
+      <li>One or more spontaneous cardinal features of parkinsonism</li>
+    </ul>
+    <span class="cite">McKeith et al., Neurology 2017 (Fourth Consensus Report DLB Consortium)</span>
+  </div>
+  <div class="cards cards-3" style="margin-top:14px;">
+    <div class="card card-clin">
+      <h3>Cognitive Profile</h3>
+      <ul class="bullet">
+        <li>Attentional and executive dysfunction dominant</li>
+        <li>Visuospatial deficits prominent (pentagons, clock drawing)</li>
+        <li>Memory relatively preserved early (unlike AD)</li>
+        <li>Fluctuation: delirium-like episodes, daytime somnolence</li>
+      </ul>
+    </div>
+    <div class="card card-clin">
+      <h3>Autonomic Features</h3>
+      <ul class="bullet">
+        <li>Orthostatic hypotension (↑ falls risk)</li>
+        <li>Constipation, urinary symptoms</li>
+        <li>Reduced cardiac MIBG uptake (biomarker)</li>
+        <li>Excessive daytime sleepiness</li>
+      </ul>
+    </div>
+    <div class="card card-clin">
+      <h3>Key Differentiator from AD</h3>
+      <ul class="bullet">
+        <li>Pronounced neuroleptic sensitivity (contraindicated)</li>
+        <li>Earlier parkinsonism and hallucinations</li>
+        <li>Preserved medial temporal volume on MRI</li>
+        <li>Abnormal DaTSCAN distinguishes from AD/VaD (Sp &gt;85%)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 15 — FTD CLINICAL FEATURES
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="FTD Clinical Features">
+  <h2>Frontotemporal Dementia — Clinical Profile <span class="badge badge-ftd">FTD</span></h2>
+  <div class="cards cards-2">
+    <div class="card card-clin">
+      <h3>bvFTD — Behavioural Variant</h3>
+      <ul class="bullet">
+        <li><strong>Early, prominent behavioural/personality change</strong> (disinhibition, apathy, loss of empathy)</li>
+        <li>Perseverative/compulsive behaviour; dietary changes (carbohydrate craving, hyperorality)</li>
+        <li>Executive dysfunction &gt; memory in early stages</li>
+        <li>Early loss of social cognition (theory of mind)</li>
+        <li>Average onset age 58 (younger than AD); genetic forms: C9ORF72, MAPT, GRN</li>
+      </ul>
+      <span class="cite">Rascovsky et al., Brain 2011 (International Behavioural Variant FTD Criteria Consortium)</span>
+    </div>
+    <div class="card card-clin">
+      <h3>PPA Variants (Primary Progressive Aphasia)</h3>
+      <ul class="bullet">
+        <li><strong>Nonfluent/Agrammatic (PNFA)</strong>: effortful, halting speech; agrammatism; apraxia of speech; MAPT/GRN pathology</li>
+        <li><strong>Semantic (SD)</strong>: fluent but empty speech; anomia; loss of word/object meaning; TDP-43 type C</li>
+        <li><strong>Logopenic (lvPPA)</strong>: word-finding pauses, impaired sentence repetition; <em>usually AD pathology</em></li>
+      </ul>
+      <span class="cite">Gorno-Tempini et al., Neurology 2011</span>
+    </div>
+    <div class="card card-clin">
+      <h3>FTD-Motor Neuron Disease</h3>
+      <ul class="bullet">
+        <li>bvFTD + ALS overlap in ~15% of FTD cases</li>
+        <li>C9ORF72 hexanucleotide repeat expansion (most common genetic cause of FTD-ALS)</li>
+        <li>Rapid progression; poor prognosis (2–3 yr median survival after MND onset)</li>
+      </ul>
+      <span class="cite">Dejesus-Hernandez et al., Neuron 2011</span>
+    </div>
+    <div class="card card-clin">
+      <h3>PSP &amp; CBD (FTD Spectrum)</h3>
+      <ul class="bullet">
+        <li><strong>PSP (Richardson syndrome)</strong>: vertical supranuclear gaze palsy, axial rigidity, falls, frontal dementia</li>
+        <li><strong>CBD syndrome</strong>: limb apraxia, asymmetric parkinsonism, alien limb, cortical sensory loss, myoclonus</li>
+        <li>Both are 4R tauopathies (MAPT mutations in familial forms)</li>
+        <li>"Hummingbird/penguin" midbrain sign on sagittal MRI (PSP)</li>
+      </ul>
+      <span class="cite">Armstrong et al., Neurology 2013 (PSP); Armstrong et al., Neurology 2013 (CBD criteria)</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 16 — CLINICAL DIFFERENTIATION TABLE
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="Clinical Differentiation Table">
+  <h2>Clinical Differentiation: Major Dementia Syndromes</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>AD</th>
+          <th>VaD</th>
+          <th>DLB</th>
+          <th>bvFTD</th>
+          <th>PDD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Onset pattern</strong></td>
+          <td>Insidious, gradual</td>
+          <td>Abrupt / stepwise</td>
+          <td>Insidious</td>
+          <td>Insidious (age &lt;65)</td>
+          <td>After PD &gt;1 yr</td>
+        </tr>
+        <tr>
+          <td><strong>Dominant cognitive domain</strong></td>
+          <td>Episodic memory</td>
+          <td>Executive / attention</td>
+          <td>Attention / visuospatial</td>
+          <td>Behaviour / executive</td>
+          <td>Attention / visuospatial</td>
+        </tr>
+        <tr>
+          <td><strong>Memory</strong></td>
+          <td class="cell-y">Early, severe</td>
+          <td class="cell-p">Variable</td>
+          <td class="cell-p">Relatively preserved</td>
+          <td class="cell-p">Relatively preserved</td>
+          <td class="cell-p">Moderate</td>
+        </tr>
+        <tr>
+          <td><strong>Hallucinations</strong></td>
+          <td class="cell-p">Late (&lt;15%)</td>
+          <td class="cell-n">Rare</td>
+          <td class="cell-y">Prominent, recurrent VH</td>
+          <td class="cell-n">Rare</td>
+          <td class="cell-y">Common VH</td>
+        </tr>
+        <tr>
+          <td><strong>Parkinsonism</strong></td>
+          <td class="cell-n">Late only</td>
+          <td class="cell-p">Lower body (gait)</td>
+          <td class="cell-y">Core feature</td>
+          <td class="cell-n">Absent (unless FTD-PSP)</td>
+          <td class="cell-y">Precedes dementia</td>
+        </tr>
+        <tr>
+          <td><strong>Fluctuating cognition</strong></td>
+          <td class="cell-n">—</td>
+          <td class="cell-p">±</td>
+          <td class="cell-y">Core feature</td>
+          <td class="cell-n">—</td>
+          <td class="cell-p">+</td>
+        </tr>
+        <tr>
+          <td><strong>RBD</strong></td>
+          <td class="cell-n">Rare</td>
+          <td class="cell-n">Rare</td>
+          <td class="cell-y">Core (60–80%)</td>
+          <td class="cell-n">Rare</td>
+          <td class="cell-y">Common</td>
+        </tr>
+        <tr>
+          <td><strong>Personality / behaviour early</strong></td>
+          <td class="cell-n">—</td>
+          <td class="cell-n">—</td>
+          <td class="cell-p">±</td>
+          <td class="cell-y">Core feature</td>
+          <td class="cell-n">—</td>
+        </tr>
+        <tr>
+          <td><strong>Gait disorder early</strong></td>
+          <td class="cell-n">—</td>
+          <td class="cell-y">Prominent (SVD)</td>
+          <td class="cell-p">+</td>
+          <td class="cell-n">—</td>
+          <td class="cell-y">Prominent</td>
+        </tr>
+        <tr>
+          <td><strong>Typical age of onset</strong></td>
+          <td>65–75+</td>
+          <td>65–75+</td>
+          <td>70–80</td>
+          <td>45–65</td>
+          <td>70–80</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 17 — RARE DEMENTIAS CLINICAL FEATURES
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-content" data-toc="Rare Dementias">
+  <h2>Rapidly Progressive &amp; Rare Dementias</h2>
+  <div class="cards cards-3">
+    <div class="card">
+      <h3>Creutzfeldt-Jakob Disease (CJD)</h3>
+      <ul class="bullet">
+        <li>Rapid progression (weeks–months) to severe dementia + death</li>
+        <li><strong>Triad</strong>: rapidly progressive dementia, myoclonus, ataxia</li>
+        <li>Periodic sharp wave complexes on EEG (sCJD)</li>
+        <li>DWI cortical ribboning + basal ganglia/thalamic signal (pulvinar sign in vCJD)</li>
+        <li>CSF RT-QuIC &gt;95% specificity (Foutz et al., Ann Neurol 2017)</li>
+      </ul>
+      <span class="cite">Zerr et al., Brain 2009; WHO diagnostic criteria</span>
+    </div>
+    <div class="card">
+      <h3>Normal Pressure Hydrocephalus (NPH)</h3>
+      <ul class="bullet">
+        <li><strong>Hakim's triad</strong>: gait apraxia → incontinence → dementia (in temporal order)</li>
+        <li>Gait: wide-based, magnetic, shuffling; frontally patterned</li>
+        <li>Dementia: subcortical pattern; executive &gt; memory</li>
+        <li>Evans index &gt;0.3 on CT; DESH pattern on MRI</li>
+        <li>Tap test (+CSF drainage) predicts shunt response</li>
+      </ul>
+      <span class="cite">Relkin et al., Neurosurgery 2005</span>
+    </div>
+    <div class="card">
+      <h3>Autoimmune Encephalitis / Paraneoplastic</h3>
+      <ul class="bullet">
+        <li>Subacute onset; psychiatric features dominant early (psychosis, agitation)</li>
+        <li>NMDA-R encephalitis: psychiatric → seizures → movement disorder → coma</li>
+        <li>LGI1 encephalitis: faciobrachial dystonic seizures (pathognomonic), hyponatraemia</li>
+        <li>VGKC complex, AMPA-R, GABA-B: various phenotypes</li>
+        <li>Treatment-responsive — early recognition critical</li>
+      </ul>
+      <span class="cite">Dalmau et al., Lancet Neurol 2011; Irani et al., Brain 2010</span>
+    </div>
+  </div>
+  <div class="warn-box" style="margin-top:14px;">
+    <strong>Reversible dementia causes to exclude:</strong> Hypothyroidism, B12/folate deficiency, neurosyphilis, HIV, NPH, chronic SDH, medication toxicity. A systematic workup (bloods, LP, neuroimaging) must precede dementia diagnosis.
+    <span class="cite">NICE NG97 2018; AAN Practice Parameter 2001</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 18 — SECTION DIVIDER: AI
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-section" data-toc="Section 3: AI in Dementia">
+  <div class="section-center">
+    <div class="section-num">03</div>
+    <div class="section-title">Artificial Intelligence in Dementia</div>
+    <div class="section-sub">Diagnosis · Prediction · Drug Discovery · Care</div>
+    <p style="max-width:580px;color:#a8d8ea;margin-top:12px;">
+      AI — particularly deep learning and large language models — is transforming dementia science from early biomarker detection to personalised care planning. This section synthesises landmark studies and emerging applications through 2024–2025.
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 19 — AI IN NEUROIMAGING ANALYSIS
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-ai" data-toc="AI: Neuroimaging Analysis">
+  <h2>AI in Neuroimaging — Automated Detection</h2>
+  <div class="cards cards-2">
+    <div class="card card-ai">
+      <h3>MRI Volumetry &amp; Segmentation <span class="badge badge-ai">Deep Learning</span></h3>
+      <ul class="bullet">
+        <li><strong>3D CNNs</strong> (e.g., VGGNet, ResNet variants) trained on ADNI data achieve AUC 0.92–0.96 for AD vs. CN classification from structural MRI alone</li>
+        <li>Automated hippocampal segmentation (FreeSurfer, FastSurfer) enables population-level normative modelling</li>
+        <li><strong>SynthSeg</strong> (Billot et al., <em>NeuroImage</em> 2023): contrast-agnostic DL segmentation robust to MRI artefacts across scanners</li>
+        <li>Detected hippocampal volume below age-norm predicts MCI→AD conversion (AUC 0.80) at 3 yrs</li>
+      </ul>
+      <span class="cite">Wen et al., Med Image Anal 2020; Billot et al., NeuroImage 2023</span>
+    </div>
+    <div class="card card-ai">
+      <h3>Amyloid/Tau PET Analysis <span class="badge badge-ai">AI</span></h3>
+      <ul class="bullet">
+        <li>Deep learning SUVR quantification matches expert visual read with AUC &gt;0.97 (Klyuzhin et al., <em>J Nucl Med</em> 2022)</li>
+        <li><strong>Early amyloid detection</strong>: DL models detect subtle amyloid PET positivity before visual threshold — potential for earlier intervention</li>
+        <li>Tau staging models correlate with Braak stage (R² 0.85) using flortaucipir PET</li>
+        <li>Multi-tracer models: joint amyloid+tau PET DL improves staging accuracy vs. single tracer</li>
+      </ul>
+      <span class="cite">Klyuzhin et al., J Nucl Med 2022; Ossenkoppele et al., Alzheimers Dement 2021</span>
+    </div>
+    <div class="card card-ai">
+      <h3>Multi-Modal Fusion Models</h3>
+      <ul class="bullet">
+        <li>MRI + FDG-PET fusion: AUC 0.96 for AD classification (Liu et al., <em>Neuroimage</em> 2020)</li>
+        <li>Multi-modal CNN + genetics (APOE ε4): improves MCI→AD prediction by 8–12% over imaging alone</li>
+        <li><strong>Graph Neural Networks (GNNs)</strong>: model connectome disruption from rs-fMRI; detect AD network signatures</li>
+        <li>Transformer models (e.g., BrainViT): self-supervised pretraining on 3D MRI; strong transfer learning for small dementia datasets</li>
+      </ul>
+      <span class="cite">Liu et al., Neuroimage 2020; Kawahara et al., Neuroimage 2017</span>
+    </div>
+    <div class="card card-ai">
+      <h3>EEG-AI Dementia Biomarkers <span class="badge badge-new">Emerging</span></h3>
+      <ul class="bullet">
+        <li>CNN on resting EEG spectral features: 88% accuracy separating AD from healthy controls (Ieracitano et al., <em>Neural Netw</em> 2019)</li>
+        <li>Graph Convolutional Networks on EEG coherence matrices detect AD connectivity signatures</li>
+        <li>P300 latency + amplitude AI models: automated dementia screening tool (promising for low-resource settings)</li>
+        <li>DL on ambulatory EEG: feasibility study for community screening</li>
+      </ul>
+      <span class="cite">Ieracitano et al., Neural Netw 2019; Babiloni et al., Clin Neurophysiol 2020</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 20 — AI: PLASMA & MULTIMODAL BIOMARKERS
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-ai" data-toc="AI: Plasma Biomarkers">
+  <h2>AI &amp; Plasma Biomarkers — Non-Invasive Screening</h2>
+  <div class="green-box">
+    <p><strong>Plasma biomarkers</strong> (Aβ42/40, p-tau181, p-tau217, p-tau231, NfL, GFAP) are revolutionising accessible dementia diagnosis. AI algorithms integrate multiple plasma markers to maximise predictive accuracy.</p>
+    <span class="cite">Ashton et al., JAMA Neurol 2022; Hansson et al., Nat Med 2022</span>
+  </div>
+  <div class="cards cards-3" style="margin-top:16px;">
+    <div class="card card-ai">
+      <h3>p-tau217 AI Models</h3>
+      <ul class="bullet">
+        <li>Plasma p-tau217 + ML: AUC 0.96 for amyloid PET positivity (vs. 0.82 p-tau217 alone)</li>
+        <li>Mass-spectrometry p-tau217 ratio: performance matches CSF in clinical AD staging (Hansson et al., <em>JAMA</em> 2023)</li>
+        <li>AI-integrated multianalyte model: identifies Braak stage ≥IV with 89% accuracy</li>
+      </ul>
+      <span class="cite">Hansson et al., JAMA 2023; Palmqvist et al., JAMA 2024</span>
+    </div>
+    <div class="card card-ai">
+      <h3>NfL &amp; GFAP</h3>
+      <ul class="bullet">
+        <li>Plasma NfL: tracks neurodegeneration rate; predicts cognitive decline across all dementia types</li>
+        <li>GFAP: astrocytic activation; strongly elevated in early AD; differentiates AD from FTD with AI integration</li>
+        <li>Combined NfL+GFAP model: AUC 0.91 for identifying rapid progressors (Benedet et al., <em>Brain</em> 2021)</li>
+      </ul>
+      <span class="cite">Benedet et al., Brain 2021; Simrén et al., Lancet Neurol 2023</span>
+    </div>
+    <div class="card card-ai">
+      <h3>Multi-Marker AI Panels</h3>
+      <ul class="bullet">
+        <li>5-marker panel (Aβ42/40 + p-tau181 + NfL + GFAP + age): AUC 0.94 for AD dementia in a community cohort</li>
+        <li>Random Forest &gt; logistic regression for integrating correlated biomarkers</li>
+        <li>LLM-assisted clinical decision support integrating plasma + cognitive test data now in clinical trial (A4S study, Sperling et al.)</li>
+      </ul>
+      <span class="cite">Cullen et al., Nat Aging 2023; Sperling et al., NEJM 2023</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 21 — AI: SPEECH & LANGUAGE
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-ai" data-toc="AI: Speech &amp; Language Analysis">
+  <h2>AI in Speech &amp; Language — Early Detection</h2>
+  <div class="info-box">
+    <p>Language changes are among the earliest markers of neurodegeneration. NLP and speech processing offer scalable, cost-free screening tools that can be deployed remotely.</p>
+  </div>
+  <div class="cards cards-2" style="margin-top:14px;">
+    <div class="card card-ai">
+      <h3>Acoustic &amp; Lexical Features</h3>
+      <ul class="bullet">
+        <li><strong>DementiaBank Picture Description</strong> (Pitt Corpus): NLP models achieve AUC ~0.90 for AD vs. controls (Kong et al., <em>EMNLP</em> 2020)</li>
+        <li>Features: pause frequency, type-token ratio, propositional density, semantic coherence</li>
+        <li>Longitudinal word usage change in published writings predicted AD onset 10+ yrs before diagnosis (Snowden et al., replication; De Santi et al.)</li>
+        <li>Telephone speech analysis: 88% sensitivity for early MCI (Lam et al., <em>npj Digit Med</em> 2023)</li>
+      </ul>
+      <span class="cite">Kong et al., EMNLP 2020; Lam et al., npj Digit Med 2023</span>
+    </div>
+    <div class="card card-ai">
+      <h3>Large Language Models (LLMs) <span class="badge badge-new">2024</span></h3>
+      <ul class="bullet">
+        <li>GPT-4 / Med-PaLM 2 evaluate cognitive interview transcripts; performance approaches neuropsychologist accuracy</li>
+        <li>LLM-based cognitive assessment tools: validated against MMSE/MoCA; high acceptance in older adults (Kaur et al., <em>npj Digit Med</em> 2024)</li>
+        <li>Multimodal LLMs (text + audio): integrate acoustic + semantic features; AUC 0.92 DementiaBank benchmark</li>
+        <li>Privacy-preserving federated LLM training across hospital networks without sharing raw data</li>
+      </ul>
+      <span class="cite">Kaur et al., npj Digit Med 2024; Miner et al., Lancet Digital Health 2024</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 22 — AI: PREDICTION & PROGRESSION
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-ai" data-toc="AI: Prediction &amp; Progression">
+  <h2>AI for Disease Prediction &amp; Staging</h2>
+  <div class="cards cards-3">
+    <div class="card card-ai">
+      <h3>MCI → AD Conversion Prediction</h3>
+      <ul class="bullet">
+        <li>ADNI-based DL model (MRI + cognitive scores + genetics): 82% accuracy predicting conversion within 3 years (Spasov et al., <em>Nat Commun</em> 2019)</li>
+        <li>Survival-based DL models estimate time-to-conversion (C-index 0.79)</li>
+        <li>External validation key challenge: UK Biobank, PREVENT-AD cohorts</li>
+      </ul>
+      <span class="cite">Spasov et al., Nat Commun 2019; Ezzati et al., Alzheimers Dement 2021</span>
+    </div>
+    <div class="card card-ai">
+      <h3>Progression Modelling</h3>
+      <ul class="bullet">
+        <li><strong>SuStaIn algorithm</strong> (Young et al., <em>Nat Commun</em> 2018): unsupervised ML identifies disease subtypes from MRI/CSF trajectory data</li>
+        <li>3 AD subtypes: typical, limbic-predominant, hippocampal-sparing — different rates of decline</li>
+        <li>Bayesian event-based models estimate individual biomarker staging</li>
+      </ul>
+      <span class="cite">Young et al., Nat Commun 2018; Archetti et al., Nat Commun 2023</span>
+    </div>
+    <div class="card card-ai">
+      <h3>Risk Prediction in General Population</h3>
+      <ul class="bullet">
+        <li>UK Biobank ML model: predicts dementia 12+ years before diagnosis from retinal images (Cheung et al., <em>Nature Medicine</em> 2022)</li>
+        <li>EHR-based deep learning: AUC 0.91 for 5-year dementia risk from routine clinical data (Nori et al., <em>NEJM AI</em> 2024)</li>
+        <li>Polygenic risk scores + lifestyle factors + ML: combined model outperforms any individual risk factor</li>
+      </ul>
+      <span class="cite">Cheung et al., Nat Med 2022; Nori et al., NEJM AI 2024</span>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top:14px;">
+    <strong>Clinical Translation Challenge:</strong> Despite high AUC in research, generalisability across ethnically diverse populations, scanners, and health systems remains the primary barrier to clinical deployment. Explainability (XAI) tools — SHAP values, Grad-CAM saliency maps — are increasingly required by regulatory frameworks for AI medical devices.
+    <span class="cite">FDA AI/ML Action Plan 2021; WHO Ethics &amp; Governance of AI for Health 2021</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 23 — AI: DRUG DISCOVERY
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-ai" data-toc="AI: Drug Discovery">
+  <h2>AI in Dementia Drug Discovery</h2>
+  <div class="cards cards-2">
+    <div class="card card-ai">
+      <h3>Target Identification &amp; Repurposing</h3>
+      <ul class="bullet">
+        <li><strong>Knowledge graph AI</strong>: integrates GWAS, proteomics, transcriptomics to identify novel AD targets (e.g., TREM2, CLU pathways)</li>
+        <li>Drug repurposing: EHR-based ML identified GLP-1 receptor agonists as potentially protective (Wang et al., <em>Nat Commun</em> 2021) — now in Phase III (EVOKE, ENSURE trials)</li>
+        <li>AlphaFold2 structural prediction accelerates tau/amyloid aggregation inhibitor design</li>
+      </ul>
+      <span class="cite">Wang et al., Nat Commun 2021; Jumper et al., Nature 2021</span>
+    </div>
+    <div class="card card-ai">
+      <h3>Clinical Trial Optimisation</h3>
+      <ul class="bullet">
+        <li>AI enrichment: selects participants likely to convert → reduces trial size/cost (Doody et al., <em>Alzheimers Res Ther</em> 2022)</li>
+        <li>Digital twins: in-silico modelling of AD progression for virtual control arms</li>
+        <li>Wearable + EHR + biomarker AI platforms for continuous outcome monitoring (e.g., AAIC 2024 digital cohort studies)</li>
+        <li>Adaptive trial designs guided by Bayesian ML dose-response modelling</li>
+      </ul>
+      <span class="cite">Doody et al., Alzheimers Res Ther 2022; Marek et al., Nat Neurosci 2022</span>
+    </div>
+  </div>
+  <div class="green-box" style="margin-top:14px;">
+    <strong>Key 2023–2024 Milestones:</strong>
+    <ul class="check" style="margin-top:8px;">
+      <li>Lecanemab (Leqembi) FDA-approved July 2023 — first disease-modifying therapy for early AD; amyloid PET required (CLARITY AD trial, van Dyck et al., NEJM 2023)</li>
+      <li>Donanemab FDA-approved July 2024 (TRAILBLAZER-ALZ 2 trial, Sims et al., JAMA 2023)</li>
+      <li>Both require amyloid biomarker confirmation — AI PET reading algorithms now FDA-cleared as companion diagnostics</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 24 — AI IN DEMENTIA CARE
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-ai" data-toc="AI in Dementia Care">
+  <h2>AI in Dementia Care &amp; Management</h2>
+  <div class="cards cards-3">
+    <div class="card card-ai">
+      <h3>Smart Home &amp; Wearable Monitoring</h3>
+      <ul class="bullet">
+        <li>Passive in-home sensor fusion (motion, gait, sleep): ML models detect ADL decline months before clinical diagnosis (Kaye et al., <em>Alzheimers Dement</em> 2011)</li>
+        <li>Smartwatch AI: detects gait variability changes; predicts falls 6 months ahead</li>
+        <li>GPS tracking + anomaly detection: wandering alerts with &lt;5 min latency</li>
+        <li>Sleep staging AI (photoplethysmography): RBD detection from wrist wearable (AUC 0.89)</li>
+      </ul>
+      <span class="cite">Kaye et al., Alzheimers Dement 2011; Stone et al., npj Digit Med 2023</span>
+    </div>
+    <div class="card card-ai">
+      <h3>Conversational AI &amp; Cognitive Stimulation</h3>
+      <ul class="bullet">
+        <li>Humanoid robots (PARO, NAO): RCTs show reduced agitation, improved wellbeing in NH residents (Moyle et al., <em>J Am Geriatr Soc</em> 2017)</li>
+        <li>AI chatbots (GPT-4 based): provide 24-hr companion interaction; reduce carer burden</li>
+        <li>Personalised cognitive training platforms: adapt difficulty using ML performance tracking</li>
+        <li>Music therapy AI: generates personalised playlists reducing BPSD (Gerdner, <em>Gerontologist</em> 2000; AI implementation 2023)</li>
+      </ul>
+      <span class="cite">Moyle et al., J Am Geriatr Soc 2017; Pu et al., Int J Geriatr Psychiatry 2020</span>
+    </div>
+    <div class="card card-ai">
+      <h3>Carer Support &amp; EHR Tools</h3>
+      <ul class="bullet">
+        <li>AI-powered caregiver decision support: medication management, BPSD non-pharmacological intervention suggestion</li>
+        <li>NLP extraction of dementia-relevant information from clinical notes (UCSF-NLP AUC 0.88 vs. manual chart review)</li>
+        <li>Predictive models for hospitalisation risk: guide proactive community intervention</li>
+        <li>Explainable AI dashboards (SHAP): clinician-trusted risk communication for shared decision-making</li>
+      </ul>
+      <span class="cite">Roth et al., JAGS 2022; Nori et al., NEJM AI 2024</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 25 — AI ETHICS & GOVERNANCE
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-ai" data-toc="AI Ethics &amp; Governance">
+  <h2>AI Ethics, Governance &amp; Equity in Dementia</h2>
+  <div class="cards cards-2">
+    <div class="card">
+      <h3>Key Ethical Concerns</h3>
+      <ul class="bullet">
+        <li><strong>Bias &amp; equity</strong>: most AI training datasets (ADNI, UK Biobank) underrepresent Black, Hispanic, and Asian populations — models may perform worse in minority groups</li>
+        <li><strong>Data privacy</strong>: neuroimaging, EHR, genomic data require GDPR/HIPAA-compliant federated learning or differential privacy</li>
+        <li><strong>Informed consent</strong>: implications of early/predictive AI diagnosis (financial, insurance, psychological impact)</li>
+        <li><strong>Autonomy</strong>: AI in care robots must respect person-centred dementia care principles</li>
+      </ul>
+      <span class="cite">WHO Ethics &amp; Governance of AI for Health 2021; Obermeyer et al., Science 2019</span>
+    </div>
+    <div class="card">
+      <h3>Regulatory Landscape</h3>
+      <ul class="bullet">
+        <li>FDA 510(k) / De Novo pathway for AI/ML-based medical devices; >500 AI/ML devices cleared by 2024</li>
+        <li>EU AI Act (2024): dementia diagnosis AI classified as high-risk — requires conformity assessment</li>
+        <li>NHS AI Lab: NHSX AI in imaging programme — including dementia imaging AI deployment trials</li>
+        <li>Alzheimer's Association AI Working Group: transparency and reproducibility standards for AD AI tools</li>
+      </ul>
+      <span class="cite">FDA AI/ML Action Plan 2021; EU AI Act 2024</span>
+    </div>
+  </div>
+  <div class="warn-box" style="margin-top:14px;">
+    <strong>Fairness Imperative:</strong> Dementia disproportionately affects women (60–65% of cases) and racialised minorities (2× higher risk in Black Americans). AI tools must be co-developed and validated in demographically representative cohorts to avoid exacerbating health inequities.
+    <span class="cite">Alzheimer's Association Facts &amp; Figures 2024; Mayeda et al., Neurology 2016</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 26 — REFERENCES
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-ref" data-toc="Key References">
+  <h2>Key References</h2>
+  <div class="cards cards-2">
+    <div class="card">
+      <h4>Consensus Criteria &amp; Guidelines</h4>
+      <ul class="bullet" style="font-size:.82rem;">
+        <li>Jack CR et al. <em>Alzheimers Dement</em> 2024 (NIA-AA revised criteria)</li>
+        <li>McKhann GM et al. <em>Alzheimers Dement</em> 2011 (NIA-AA AD criteria)</li>
+        <li>McKeith IG et al. <em>Neurology</em> 2017 (4th DLB Consortium)</li>
+        <li>Rascovsky K et al. <em>Brain</em> 2011 (International bvFTD criteria)</li>
+        <li>Gorno-Tempini ML et al. <em>Neurology</em> 2011 (PPA classification)</li>
+        <li>Román GC et al. <em>Neurology</em> 1993 (NINDS-AIREN VaD)</li>
+        <li>Armstrong MJ et al. <em>Neurology</em> 2013 (PSP/CBS criteria)</li>
+        <li>NICE Guideline NG97 2018 (Dementia)</li>
+        <li>Relkin N et al. <em>Neurosurgery</em> 2005 (NPH guidelines)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Neuroimaging &amp; Biomarkers</h4>
+      <ul class="bullet" style="font-size:.82rem;">
+        <li>Scheltens P et al. <em>Lancet</em> 2021 (Alzheimer's disease review)</li>
+        <li>Wardlaw JM et al. <em>Lancet Neurol</em> 2013 (SVD neuroimaging standards)</li>
+        <li>Leuzy A et al. <em>Nat Rev Neurol</em> 2023 (Tau PET review)</li>
+        <li>Klunk WE et al. <em>Alzheimers Dement</em> 2015 (Centiloid scale)</li>
+        <li>Rabinovici GD et al. <em>JAMA</em> 2019 (IDEAS study)</li>
+        <li>Zerr I et al. <em>Brain</em> 2009 (CJD diagnostic criteria)</li>
+        <li>Bonanni L et al. <em>J Neurol Neurosurg Psychiatry</em> 2008 (DLB EEG)</li>
+        <li>Polich J. <em>Clin Neurophysiol</em> 2007 (P300 review)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>AI in Dementia — Landmark Studies</h4>
+      <ul class="bullet" style="font-size:.82rem;">
+        <li>Wen J et al. <em>Med Image Anal</em> 2020 (DL MRI AD classification)</li>
+        <li>Spasov S et al. <em>Nat Commun</em> 2019 (MCI→AD DL prediction)</li>
+        <li>Young AL et al. <em>Nat Commun</em> 2018 (SuStaIn subtyping)</li>
+        <li>Cheung CY et al. <em>Nat Med</em> 2022 (Retinal AI)</li>
+        <li>Nori N et al. <em>NEJM AI</em> 2024 (EHR dementia prediction)</li>
+        <li>Hansson O et al. <em>JAMA</em> 2023 (Plasma p-tau217)</li>
+        <li>Ieracitano C et al. <em>Neural Netw</em> 2019 (EEG-CNN AD)</li>
+        <li>Lam J et al. <em>npj Digit Med</em> 2023 (Speech AI screening)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Disease-Modifying Therapy &amp; Care</h4>
+      <ul class="bullet" style="font-size:.82rem;">
+        <li>van Dyck CH et al. <em>NEJM</em> 2023 (CLARITY AD — lecanemab)</li>
+        <li>Sims JR et al. <em>JAMA</em> 2023 (TRAILBLAZER-ALZ 2 — donanemab)</li>
+        <li>Wang W et al. <em>Nat Commun</em> 2021 (GLP-1 drug repurposing AI)</li>
+        <li>Moyle W et al. <em>J Am Geriatr Soc</em> 2017 (PARO RCT)</li>
+        <li>Kaye JA et al. <em>Alzheimers Dement</em> 2011 (In-home sensor monitoring)</li>
+        <li>Alzheimer's Association <em>Alzheimers Dement</em> 2024 (Facts &amp; Figures)</li>
+        <li>WHO Ethics &amp; Governance of AI for Health 2021</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SLIDE 27 — SUMMARY
+═══════════════════════════════════════════════════════════ -->
+<div class="slide slide-title" data-toc="Summary">
+  <div class="title-center">
+    <h1>Summary &amp; Key Takeaways</h1>
+    <div style="max-width:700px;margin-top:20px;text-align:left;">
+      <div class="cards cards-3">
+        <div class="card">
+          <h3>🧠 Neuroimaging</h3>
+          <ul class="check">
+            <li>MRI hippocampal atrophy = earliest AD marker</li>
+            <li>DaTSCAN separates DLB from AD with &gt;85% specificity</li>
+            <li>DWI cortical ribboning is pathognomonic for CJD</li>
+            <li>Amyloid PET required for anti-amyloid therapy eligibility</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🔬 Clinical Features</h3>
+          <ul class="check">
+            <li>Memory-first = AD; Executive-first = VaD/bvFTD</li>
+            <li>RBD + VH + fluctuation = DLB until proven otherwise</li>
+            <li>Rapid progression + myoclonus → exclude CJD</li>
+            <li>Gait + incontinence + dementia triad = consider NPH</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🤖 AI</h3>
+          <ul class="check">
+            <li>DL on MRI/PET achieves &gt;92% AUC for AD classification</li>
+            <li>Plasma p-tau217 AI models match CSF performance</li>
+            <li>Speech AI enables remote, scalable early detection</li>
+            <li>Equity and explainability are essential for clinical adoption</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p class="author-line" style="margin-top:24px;">
+      For clinical use, consult current NIA-AA, DLB Consortium, NICE, and AAN guidelines.<br/>
+      All AI tools require local validation before clinical deployment.
+    </p>
+  </div>
+</div>
+
+</div><!-- /slides -->
+
+<!-- NAVIGATION -->
+<div id="nav">
+  <button id="prev-btn" disabled>← Prev</button>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <button id="toc-btn">☰ Contents</button>
+    <span id="slide-counter">1 / 27</span>
+  </div>
+  <button id="next-btn">Next →</button>
+</div>
+
+<!-- TOC MODAL -->
+<div id="toc-modal">
+  <div id="toc-inner">
+    <h2>Table of Contents</h2>
+    <div id="toc-list"></div>
+    <button style="margin-top:16px;padding:8px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:.9rem;" onclick="document.getElementById('toc-modal').classList.remove('open')">Close</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let cur = 0;
+
+  // Build TOC
+  const tocList = document.getElementById('toc-list');
+  slides.forEach((s,i) => {
+    const label = s.dataset.toc || ('Slide '+(i+1));
+    const item = document.createElement('div');
+    item.className = 'toc-item';
+    item.innerHTML = `<div class="toc-num">${i+1}</div><div class="toc-label">${label}</div>`;
+    item.addEventListener('click', () => { goTo(i); document.getElementById('toc-modal').classList.remove('open'); });
+    tocList.appendChild(item);
+  });
+
+  function goTo(n){
+    if(n===cur) return;
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit');
+    const prev=cur;
+    cur=n;
+    setTimeout(()=>{ slides[prev].classList.remove('exit'); slides[cur].scrollTop=0; slides[cur].classList.add('active'); updateUI(); },300);
+  }
+
+  function updateUI(){
+    document.getElementById('slide-counter').textContent = (cur+1)+' / '+slides.length;
+    document.getElementById('prev-btn').disabled = cur===0;
+    document.getElementById('next-btn').disabled = cur===slides.length-1;
+    const pct = slides.length>1 ? ((cur/(slides.length-1))*100) : 100;
+    document.getElementById('progress-bar').style.width = pct+'%';
+  }
+
+  document.getElementById('prev-btn').addEventListener('click',()=>{ if(cur>0) goTo(cur-1); });
+  document.getElementById('next-btn').addEventListener('click',()=>{ if(cur<slides.length-1) goTo(cur+1); });
+  document.getElementById('toc-btn').addEventListener('click',()=>{ document.getElementById('toc-modal').classList.toggle('open'); });
+  document.getElementById('toc-modal').addEventListener('click',function(e){ if(e.target===this) this.classList.remove('open'); });
+
+  // Keyboard
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='ArrowDown') { if(cur<slides.length-1) goTo(cur+1); }
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp') { if(cur>0) goTo(cur-1); }
+    if(e.key==='Escape') document.getElementById('toc-modal').classList.remove('open');
+  });
+
+  // Touch swipe
+  let tx=0;
+  document.addEventListener('touchstart',e=>{ tx=e.touches[0].clientX; },{passive:true});
+  document.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tx;
+    if(Math.abs(dx)>60){ if(dx<0&&cur<slides.length-1) goTo(cur+1); else if(dx>0&&cur>0) goTo(cur-1); }
+  },{passive:true});
+
+  updateUI();
+})();
+</script>
+</body>
+</html>
