@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pain in Dementia: Causes, Assessment, Management, and Care Gaps</title>
+  <style>
+    :root {
+      --bg: #0d1b2a;
+      --bg2: #152538;
+      --card: rgba(255, 255, 255, 0.06);
+      --line: rgba(255, 255, 255, 0.14);
+      --text: #d7e2ee;
+      --title: #ffffff;
+      --accent: #7ec8e3;
+      --gold: #f4a261;
+      --green: #6fcf97;
+      --red: #eb5757;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(160deg, var(--bg) 0%, var(--bg2) 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 20px 40px; }
+    h1, h2, h3 { color: var(--title); margin: 0 0 10px; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.35rem; color: var(--accent); margin-top: 28px; }
+    h3 { font-size: 1.05rem; color: var(--gold); }
+    p { margin: 0 0 10px; }
+    .subtitle { color: #a8d8ea; margin-top: 6px; }
+    .grid { display: grid; gap: 14px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .note { border-left: 4px solid var(--accent); padding: 10px 12px; background: rgba(126, 200, 227, 0.12); border-radius: 6px; }
+    .warn { border-left: 4px solid var(--red); padding: 10px 12px; background: rgba(235, 87, 87, 0.12); border-radius: 6px; }
+    ul { margin: 8px 0 0 18px; padding: 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.92rem; }
+    th, td { border-bottom: 1px solid var(--line); padding: 8px; text-align: left; vertical-align: top; }
+    th { color: var(--accent); }
+    .scale label { display: block; font-size: 0.88rem; margin-bottom: 4px; }
+    .scale select, .scale textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 7px;
+      padding: 6px;
+      margin-bottom: 8px;
+    }
+    .score {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--accent);
+      background: rgba(126, 200, 227, 0.14);
+      border: 1px solid rgba(126, 200, 227, 0.35);
+      border-radius: 8px;
+      padding: 8px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    button {
+      background: #2e86ab;
+      color: #fff;
+      border: 0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button.alt { background: rgba(255, 255, 255, 0.18); }
+    .small { font-size: 0.8rem; opacity: 0.9; }
+    .src { font-size: 0.8rem; opacity: 0.82; margin-top: 6px; }
+    .ok { color: var(--green); }
+    @media (max-width: 900px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Pain in Dementia: Practical Clinical Synthesis</h1>
+    <p class="subtitle">Causes, assessment, management (including image-guided interventions), and unresolved core gaps.</p>
+
+    <div class="note">
+      Pain is common and frequently underdetected in dementia because communication barriers increase as disease progresses. Untreated pain worsens agitation, sleep disruption, mobility decline, caregiver burden, and potentially inappropriate psychotropic use.
+    </div>
+
+    <h2>1) Why pain is missed in dementia</h2>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Neurocognitive barriers</h3>
+        <ul>
+          <li>Reduced verbal reporting and altered pain expression.</li>
+          <li>Executive/language deficits limit history quality.</li>
+          <li>Delirium overlap masks pain behaviors.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Clinical-system barriers</h3>
+        <ul>
+          <li>No universal workflow for observational pain tools.</li>
+          <li>Behavioral symptoms often treated before pain is assessed.</li>
+          <li>Fragmented handoff between primary, geriatrics, and pain services.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Typical consequences</h3>
+        <ul>
+          <li>Functional decline and immobility.</li>
+          <li>Falls, poorer sleep, malnutrition risk.</li>
+          <li>Potential overtreatment with antipsychotics/sedatives.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>2) Common causes of pain in people with dementia</h2>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Musculoskeletal (most frequent)</h3>
+        <ul>
+          <li>Osteoarthritis (knee/hip/shoulder/spine)</li>
+          <li>Compression fractures, sarcopenia, contractures</li>
+          <li>Myofascial pain and immobility-related pain</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Neuropathic & mixed</h3>
+        <ul>
+          <li>Diabetic neuropathy, postherpetic neuralgia</li>
+          <li>Radiculopathy/spinal stenosis</li>
+          <li>Post-stroke central pain</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Visceral / medical</h3>
+        <ul>
+          <li>Constipation, urinary retention, pressure injury</li>
+          <li>Dental pain, occult infection, ischemic pain</li>
+          <li>Medication adverse effects (e.g., cramps)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Procedure/device related</h3>
+        <ul>
+          <li>Poorly fitted orthoses, catheter-related discomfort</li>
+          <li>Postoperative or post-fracture pain undertreatment</li>
+          <li>Pain during transfers/repositioning</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>3) Assessment framework (stepwise)</h2>
+    <div class="card">
+      <ol>
+        <li><strong>Ask first</strong> (if possible): simple present-tense questions, body map, and movement-evoked pain.</li>
+        <li><strong>Observe behavior</strong>: facial expression, vocalization, guarding, resistance to care, sleep/appetite change.</li>
+        <li><strong>Use validated tools repeatedly</strong> (same tool, same shift context).</li>
+        <li><strong>Treat-then-reassess cycle</strong>: objective reassessment after intervention.</li>
+        <li><strong>Rule out urgent causes</strong>: fracture, retention, bowel obstruction, acute ischemia, infection, pressure injury.</li>
+      </ol>
+      <p class="src">Recognized sources: AGS pain guidance in older adults; NICE dementia guidance (NG97); American Psychiatric Association dementia-related agitation guidance; IASP older-person pain resources.</p>
+    </div>
+
+    <h2>4) Interactive observational scales (copyable)</h2>
+    <div class="grid grid-2">
+      <div class="card scale">
+        <h3>PAINAD (0–10)</h3>
+        <label>Breathing</label><select id="p_b"><option>0</option><option>1</option><option>2</option></select>
+        <label>Negative vocalization</label><select id="p_v"><option>0</option><option>1</option><option>2</option></select>
+        <label>Facial expression</label><select id="p_f"><option>0</option><option>1</option><option>2</option></select>
+        <label>Body language</label><select id="p_bl"><option>0</option><option>1</option><option>2</option></select>
+        <label>Consolability</label><select id="p_c"><option>0</option><option>1</option><option>2</option></select>
+        <div class="score" id="p_score">Total: 0 / 10 (no-to-minimal observed pain)</div>
+        <div class="btns">
+          <button onclick="copyPainad()">Copy PAINAD score</button>
+          <button class="alt" onclick="resetPainad()">Reset</button>
+        </div>
+        <p class="small">Common practical interpretation: 1–3 mild, 4–6 moderate, 7–10 severe observed pain (institutional protocols vary).</p>
+      </div>
+
+      <div class="card scale">
+        <h3>Abbey Pain Scale (0–18)</h3>
+        <label>Vocalization</label><select id="a1"><option>0</option><option>1</option><option>2</option><option>3</option></select>
+        <label>Facial expression</label><select id="a2"><option>0</option><option>1</option><option>2</option><option>3</option></select>
+        <label>Change in body language</label><select id="a3"><option>0</option><option>1</option><option>2</option><option>3</option></select>
+        <label>Behavioral change</label><select id="a4"><option>0</option><option>1</option><option>2</option><option>3</option></select>
+        <label>Physiological change</label><select id="a5"><option>0</option><option>1</option><option>2</option><option>3</option></select>
+        <label>Physical changes</label><select id="a6"><option>0</option><option>1</option><option>2</option><option>3</option></select>
+        <div class="score" id="a_score">Total: 0 / 18 (no pain)</div>
+        <div class="btns">
+          <button onclick="copyAbbey()">Copy Abbey score</button>
+          <button class="alt" onclick="resetAbbey()">Reset</button>
+        </div>
+        <p class="small">Conventional Abbey categories: 0 no pain, 1–3 mild, 4–7 moderate, 8–13 severe, 14+ extreme.</p>
+      </div>
+    </div>
+
+    <h2>5) Management: evidence-based, multimodal, goal-directed</h2>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Non-pharmacologic first-line (all stages)</h3>
+        <ul>
+          <li>Regular mobilization, PT/OT, seating/positioning optimization.</li>
+          <li>Heat/cold, massage, gentle manual therapy, sleep optimization.</li>
+          <li>Structured activity, music, and caregiver coaching for pain behaviors.</li>
+          <li>Address constipation, retention, footwear, pressure points, oral care.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Pharmacologic principles</h3>
+        <ul>
+          <li>Start low, go slow; schedule + rescue only if needed.</li>
+          <li>Acetaminophen often first choice (watch total daily dose/liver risk).</li>
+          <li>NSAIDs cautiously and briefly (renal/GI/CV risk in frail elders).</li>
+          <li>Opioids: reserve for moderate-severe pain with close bowel/falls/sedation monitoring.</li>
+          <li>Neuropathic pain: selected adjuvants (e.g., duloxetine/gabapentinoids) with cognition/fall surveillance.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Interventional pain options (selected patients; specialist evaluation)</h3>
+      <table>
+        <thead>
+          <tr><th>Condition</th><th>Image-guided option</th><th>Potential role in dementia care</th><th>Evidence signal</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Knee OA</td><td>Ultrasound/fluoro genicular nerve block; genicular RFA</td><td>May reduce pain and improve transfers/walking when meds are limited</td><td class="ok">Moderate (older-adult OA literature)</td></tr>
+          <tr><td>Hip OA</td><td>US-guided intra-articular injection</td><td>Bridge for rehab or when surgery not suitable</td><td class="ok">Moderate (short-term benefit strongest)</td></tr>
+          <tr><td>Shoulder OA/capsulitis</td><td>US-guided glenohumeral/subacromial injection</td><td>Improves dressing/hygiene tolerance</td><td class="ok">Moderate</td></tr>
+          <tr><td>Spine facet pain</td><td>Medial branch blocks ± RFA</td><td>Can reduce movement-evoked pain in carefully selected patients</td><td>Low–moderate</td></tr>
+          <tr><td>Focal neuropathic pain</td><td>Peripheral nerve block (site-specific)</td><td>Opioid-sparing strategy during flares/procedures</td><td>Low–moderate</td></tr>
+          <tr><td>Ligament/tendon pain</td><td>Prolotherapy (dextrose) under US guidance</td><td>Possible option when conventional care fails; discuss uncertainty</td><td>Low / mixed; condition-specific</td></tr>
+        </tbody>
+      </table>
+      <p class="src">Interventional evidence is mostly extrapolated from broader older-adult pain populations, not dementia-specific RCTs.</p>
+    </div>
+
+    <h2>6) Rapid treatment summary (copyable)</h2>
+    <div class="card scale">
+      <label>Clinical context / likely pain source</label>
+      <textarea id="ctx" rows="2" placeholder="e.g., Advanced dementia with probable knee OA pain during transfers"></textarea>
+      <label>Functional goal</label>
+      <textarea id="goal" rows="2" placeholder="e.g., Sit-to-stand with one-person assist and uninterrupted sleep for 5 hours"></textarea>
+      <label>Initial multimodal plan</label>
+      <textarea id="plan" rows="3" placeholder="e.g., Scheduled acetaminophen, PT transfer program, pressure-point offloading, consider genicular block referral"></textarea>
+      <div class="btns">
+        <button onclick="copySummary()">Copy treatment summary</button>
+      </div>
+    </div>
+
+    <h2>7) Core unresolved issues / implementation gaps</h2>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Major gaps</h3>
+        <ul>
+          <li>Too few dementia-specific analgesic and interventional trials.</li>
+          <li>No single global standard for observational pain thresholds.</li>
+          <li>Inconsistent reassessment documentation after treatment changes.</li>
+          <li>Poor integration of pain metrics into behavioral-symptom pathways.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>High-priority fixes</h3>
+        <ul>
+          <li>Mandatory pain check before escalating psychotropics.</li>
+          <li>Same-scale repeated scoring per shift + trend charts.</li>
+          <li>Caregiver training in pain behavior recognition.</li>
+          <li>Early referral pathways to geriatrics/pain/interventional services.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warn" style="margin-top:18px;">
+      This educational module supports clinical reasoning and does not replace local protocols, prescribing standards, or specialist evaluation.
+    </div>
+
+    <h2>Recognized source anchors</h2>
+    <div class="card">
+      <ul>
+        <li>International Association for the Study of Pain (IASP): pain in older persons and dementia communication barriers.</li>
+        <li>NICE Guideline NG97 (Dementia): assessment and person-centered management framework.</li>
+        <li>American Geriatrics Society: persistent pain principles in older adults and medication-risk balance.</li>
+        <li>PAINAD original validation (Warden et al.) and Abbey Pain Scale implementation resources.</li>
+        <li>American College of Rheumatology/OARSI osteoarthritis guidance for conservative and injection-based options.</li>
+      </ul>
+      <p class="src">Use institution-approved versions/updates of these references when applying in practice.</p>
+    </div>
+  </div>
+
+  <script>
+    function val(id) { return parseInt(document.getElementById(id).value || '0', 10); }
+
+    function painadInterpret(s) {
+      if (s === 0) return 'no-to-minimal observed pain';
+      if (s <= 3) return 'mild observed pain';
+      if (s <= 6) return 'moderate observed pain';
+      return 'severe observed pain';
+    }
+
+    function abbeyInterpret(s) {
+      if (s === 0) return 'no pain';
+      if (s <= 3) return 'mild pain';
+      if (s <= 7) return 'moderate pain';
+      if (s <= 13) return 'severe pain';
+      return 'extreme pain';
+    }
+
+    function calcPainad() {
+      const total = val('p_b') + val('p_v') + val('p_f') + val('p_bl') + val('p_c');
+      document.getElementById('p_score').textContent = `Total: ${total} / 10 (${painadInterpret(total)})`;
+      return total;
+    }
+
+    function calcAbbey() {
+      const total = val('a1') + val('a2') + val('a3') + val('a4') + val('a5') + val('a6');
+      document.getElementById('a_score').textContent = `Total: ${total} / 18 (${abbeyInterpret(total)})`;
+      return total;
+    }
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const prev = document.title;
+        document.title = 'Copied ✓';
+        setTimeout(() => { document.title = prev; }, 800);
+      });
+    }
+
+    function copyPainad() {
+      const t = calcPainad();
+      copyText(`PAINAD: ${t}/10 (${painadInterpret(t)})`);
+    }
+
+    function copyAbbey() {
+      const t = calcAbbey();
+      copyText(`Abbey Pain Scale: ${t}/18 (${abbeyInterpret(t)})`);
+    }
+
+    function resetPainad() {
+      ['p_b','p_v','p_f','p_bl','p_c'].forEach(id => document.getElementById(id).value = '0');
+      calcPainad();
+    }
+
+    function resetAbbey() {
+      ['a1','a2','a3','a4','a5','a6'].forEach(id => document.getElementById(id).value = '0');
+      calcAbbey();
+    }
+
+    function copySummary() {
+      const painad = calcPainad();
+      const abbey = calcAbbey();
+      const ctx = document.getElementById('ctx').value.trim();
+      const goal = document.getElementById('goal').value.trim();
+      const plan = document.getElementById('plan').value.trim();
+      const text = [
+        'Pain-in-Dementia Summary',
+        `PAINAD: ${painad}/10 (${painadInterpret(painad)})`,
+        `Abbey: ${abbey}/18 (${abbeyInterpret(abbey)})`,
+        `Context: ${ctx || 'N/A'}`,
+        `Goal: ${goal || 'N/A'}`,
+        `Initial Plan: ${plan || 'N/A'}`
+      ].join('\n');
+      copyText(text);
+    }
+
+    document.querySelectorAll('select').forEach(el => {
+      el.addEventListener('change', () => { calcPainad(); calcAbbey(); });
+    });
+    calcPainad();
+    calcAbbey();
+  </script>
+</body>
+</html>
