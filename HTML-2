@@ -79,6 +79,7 @@
   .cell-y{color:#6fcf97;font-weight:600;}
   .cell-n{color:#eb5757;font-weight:600;}
   .cell-p{color:var(--gold);font-weight:600;}
+  .cell-m{color:#a8d8ea;}
 
   #nav{
     position:fixed;bottom:0;left:0;right:0;
@@ -160,7 +161,7 @@
       <span class="pill">Artificial Intelligence</span>
     </div>
     <p class="author-line">Evidence-based • Peer-reviewed sources • Updated 2024–2025</p>
-    <div style="margin-top:18px;" class="info-box" style="max-width:560px;text-align:left;">
+    <div class="info-box" style="margin-top:18px;max-width:560px;text-align:left;">
       <p>This presentation covers the most distinctive neuroimaging (MRI, CT, PET, SPECT) and neurophysiologic (EEG, evoked potentials) biomarkers in major dementia syndromes, their hallmark clinical features, and the rapidly evolving role of artificial intelligence in dementia detection and care.</p>
     </div>
   </div>
@@ -1418,14 +1419,12 @@
   });
 
   function goTo(n){
+    if(n===cur) return;
     slides[cur].classList.remove('active');
     slides[cur].classList.add('exit');
-    setTimeout(()=>{ slides[cur].classList.remove('exit'); cur=n; slides[cur].classList.add('active'); updateUI(); }, 250);
-    // instant for same-slide
-    if(n===cur){ slides[cur].classList.remove('exit'); slides[cur].classList.add('active'); updateUI(); return; }
-    slides[cur].classList.remove('active');
-    slides[cur].classList.add('exit');
-    setTimeout(()=>{ slides[cur].classList.remove('exit'); cur=n; slides[cur].scrollTop=0; slides[cur].classList.add('active'); updateUI(); },300);
+    const prev=cur;
+    cur=n;
+    setTimeout(()=>{ slides[prev].classList.remove('exit'); slides[cur].scrollTop=0; slides[cur].classList.add('active'); updateUI(); },300);
   }
 
   function updateUI(){
